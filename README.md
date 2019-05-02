@@ -1,4 +1,4 @@
-# RestaurantORderApp
+# RestaurantOrderApp
 We based the configuration of the project on this boilerplate with a Flask backend and React frontend
 
 - https://github.com/modle/flask-react
