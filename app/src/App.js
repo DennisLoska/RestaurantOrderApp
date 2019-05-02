@@ -3,14 +3,6 @@ import Home from './components/Home';
 import './App.css';
 
 class App extends Component {
-  state = {
-    babelTest: true
-  };
-
-  testBabel = () => {
-    console.log('test');
-  };
-
   render() {
     return (
       <div>
