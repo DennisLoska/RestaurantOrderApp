@@ -4,22 +4,62 @@ We based the configuration of the project on this boilerplate with a Flask backe
 
 - https://github.com/modle/flask-react
 
-# Get started
+## Get started
 
-    ** Clone the repository! **
-    virtualenv flask-react (recommended)
-    cd flask-react
+**Clone the repository!**
 
-    ** In one tab **
-    sh setup.sh -> install frontend and backend dependencies and start the Flask server
+then:
 
-    ** In another tab **
-    cd app && npm start -> start frontend development server
+```
+cd RestaurantOrderApp/
+```
 
-# Development
+**In one tab**
 
-    ** In one tab **
-    cd ./RestaurantOrderApp && python server.py -> start the backend server
+```
+sh setup.sh
+```
 
-    ** In another tab **
-    cd app && npm start -> start frontend development server
+-> install frontend and backend dependencies and start the Flask server
+
+**In another tab**
+
+```
+cd app && npm start
+```
+
+-> start frontend development server
+
+## Development
+
+**In one tab**
+
+```
+cd ./RestaurantOrderApp && python server.py
+```
+
+-> start the backend server
+
+**In another tab**
+
+```
+cd app && npm start
+```
+
+-> start frontend development server
+
+## Deployment
+
+```
+cd app/
+npm run build
+```
+
+## Starting deployed application
+
+```
+cd RestaurantOrderApp/
+python server.py
+```
+
+The app runs on localhost:4000
