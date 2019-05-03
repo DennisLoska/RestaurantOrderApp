@@ -15,7 +15,7 @@ npm install
 echo "Frontend dependencies installed. Run 'npm start' in a seperate tab to start the development server."
 
 # Prepare Flask backend
-cd $current_directory/backend/
+cd $current_directory/
 
 # start virtualenv
 source $current_directory/bin/activate
