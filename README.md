@@ -48,6 +48,8 @@ cd app && npm start
 
 -> start frontend development server
 
+Try to go to the route /test to make sure React-Router is also working!
+
 ## Deployment
 
 ```
@@ -62,4 +64,4 @@ cd RestaurantOrderApp/
 python server.py
 ```
 
-The app runs on localhost:4000
+The Flask server runs on localhost:4000 and the Webpack development server on port 3000
