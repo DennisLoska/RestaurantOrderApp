@@ -1,0 +1,15 @@
+.tab-header {
+  padding: 0;
+  margin: 0;
+}
+
+.tab-header-item {
+  display: inline-block;
+  list-style: none;
+  padding: 0.4em;
+  margin: 0;
+}
+
+.activeTab {
+  text-decoration: underline;
+}
