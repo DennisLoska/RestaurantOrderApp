@@ -3,10 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
 import Home from './components/Home';
-import MenuCard from './components/MenuCard';
-import MenuOrder from './components/MenuOrder';
-import OrderHistory from './components/OrderHistory';
-import Tabs from './components/Tabs';
+import TableMenu from './components/TableMenu';
 import './App.css';
 
 const TestRoute = () => {
@@ -14,34 +11,21 @@ const TestRoute = () => {
 };
 
 const Order = () => {
-  // dummy objects
-  const history = [
-    { date: '13.05.19', food: 'Mochito' },
-    { date: '10.04.19', food: 'Chicken Wings' }
-  ];
+  // dummy data
+  const history = [];
+  const orders = [];
 
-  const orders = [
-    {
+  // TODO: avoid strings everywhere (i.e. price)
+  for (let index = 0; index < 5; index++) {
+    orders.push({
       image:
         'https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg',
-      food: 'Bier',
-      price: '€ 3.00'
-    },
-    {
-      image:
-        'https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg',
-      food: 'Pommes',
-      price: '€ 3.00'
-    }
-  ];
-
-  return (
-    <Tabs>
-      <MenuCard label="Speisekarte" />
-      <MenuOrder label="Ausgewählte Gerichte" orders={orders} />
-      <OrderHistory label="Bestellverlauf" history={history} />
-    </Tabs>
-  );
+      food: 'Lorem Ipsum',
+      price: '€ 1.00'
+    });
+    history.push({ date: 'dd.mm.yyyy', food: 'Balla Lorem' });
+  }
+  return <TableMenu orders={orders} history={history} />;
 };
 
 class App extends Component {
