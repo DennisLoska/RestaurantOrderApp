@@ -56,6 +56,7 @@ typings/
 
 # dotenv environment variables file
 .env
+flask-react
 
 # next.js build output
 .next

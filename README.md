@@ -30,6 +30,57 @@ cd app && npm start
 
 -> start frontend development server
 
+## Virtual Environment
+
+To work inside a virtual environment you need to create it first:
+
+```
+cd ./RestaurantOrderApp
+virtualenv flask-react
+```
+
+After this is done go to the bin folder and activate it:
+
+```
+cd ./RestaurantOrderApp/flask-react/bin
+source activate
+```
+
+Now you are inside the flask-react vortual environment and can go on and install the dependencies from
+_requirements.txt:
+
+```
+cd ./RestaurantOrderApp/flask-react/bin
+source activate
+```
+
+### Prepare the environment variables for Flask:
+
+```
+cd ./RestaurantOrderApp/
+export FLASK_DEBUG=1
+export FLASK_APP=server.py
+```
+
+Now you can run Flask correctly in the virtual environment:
+
+```
+flask run
+```
+The outpout should look as follows:
+  
+```
+ * Serving Flask app "server"
+ * Forcing debug mode on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 622-298-193
+```
+### Exiting the virtual environment
+
+To exit the virtual environment just type in **deactivate** in your console from any directory.
+
 ## Development
 
 **In one tab**
@@ -64,4 +115,4 @@ cd RestaurantOrderApp/
 python server.py
 ```
 
-The Flask server runs on localhost:4000 and the Webpack development server on port 3000
+The Flask server runs on localhost:5000 and the Webpack development server on port 3000
