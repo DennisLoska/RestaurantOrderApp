@@ -32,6 +32,7 @@ cd app && npm start
 -> start frontend development server
 
 ## Virtual Environment
+These steps are only relevant if you did not execute the _setup.sh_ inside a virtual environment! If you did you can skiip this part!
 
 To work inside a virtual environment you need to create it first:
 
