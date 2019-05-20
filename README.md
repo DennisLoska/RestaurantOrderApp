@@ -12,6 +12,7 @@ then:
 
 ```
 cd RestaurantOrderApp/
+virtualenv flask-react
 ```
 
 **In one tab**
