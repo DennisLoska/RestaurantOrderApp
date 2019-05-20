@@ -63,3 +63,6 @@ flask-react
 
 # Python server cache
 __pycache__
+
+# vscode
+.vscode/settings.json

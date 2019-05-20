@@ -1,8 +1,6 @@
 import json
+import pymongo
 from flask import Flask, request, Response, jsonify, render_template
-
-# MongoEngine is to document databases what SQL Alchemy is to relational databases
-# It is an ODM (Object Document Model)
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
