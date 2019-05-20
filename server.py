@@ -2,6 +2,12 @@ import json
 import pymongo
 from flask import Flask, request, Response, jsonify, render_template
 
+client = pymongo.MongoClient("localhost", 27017)
+db = client["db_restaurant"]
+# customers = db["customers"]
+# orders = db["orders"]
+# items = db["items"]
+
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 
