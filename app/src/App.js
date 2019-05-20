@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
 import Home from './components/Home';
+import Login from './components/Login';
 import TableMenu from './components/TableMenu';
 import './App.css';
 
@@ -38,6 +39,7 @@ class App extends Component {
               <Route path="/" exact component={Home} />
               <Route path="/test" exact component={TestRoute} />
               <Route path="/order" exact component={Order} />
+              <Route path="/login" exact component={Login} />
             </Switch>
           </div>
         </Router>

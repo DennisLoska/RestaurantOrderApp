@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Login.css';
-
-/** import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+//import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     };
   }
 
@@ -22,13 +20,15 @@ export default class Login extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
-  }
+  };
 
   handleSubmit = event => {
     event.preventDefault();
-  }
+  };
 
   render() {
+    return 'Hello Login';
+    /*
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
@@ -60,5 +60,6 @@ export default class Login extends Component {
         </form>
       </div>
     );
+    */
   }
 }
