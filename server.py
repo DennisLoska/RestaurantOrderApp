@@ -1,6 +1,7 @@
 import json
 import pymongo
-from flask import Flask, request, Response, jsonify, render_template, session, bcrypt
+import bcrypt
+from flask import Flask, request, Response, jsonify, render_template, session
 
 client = pymongo.MongoClient("localhost", 27017)
 db = client["db_restaurant"]
