@@ -1,12 +1,12 @@
 import json
 import pymongo
-from flask import Flask, request, Response, jsonify, render_template
+from flask import Flask, request, Response, jsonify, render_template, session, bcrypt
 
 client = pymongo.MongoClient("localhost", 27017)
 db = client["db_restaurant"]
-# customers = db["customers"]
-# orders = db["orders"]
-# items = db["items"]
+customers = db.customers
+orders = db.orders
+items = db.items
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
@@ -34,12 +34,29 @@ def serve():
         }
     )
 
+
+@app.route('/register', methods=['POST'])
+def register():
+    if request.method == 'POST':
+        customers = db.customers
+        existing_customer = customers.find_one(
+            {'name': request.form['username']})
+        if existing_customer is None:
+            hashpass = bcrypt.hashpw(
+                request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+            customers.insert(
+                {'name': request.form['username'], 'email': request.form['email'], 'password': hashpass})
+            session['username'] = request.form['username']
+            return render_template('index.html')
+        else:
+            return 'That username already exists!'
+
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
 # access the route e.g. /test instead of routing to a specific file/template
 # # on the server we just return the index.html
 @app.route('/', defaults={'path': ''}, methods=['GET'])
-def catch_all(path):
+def catch_all(path):  # index
     return render_template('index.html')
 
 # 404 not found -> React Router
