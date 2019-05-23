@@ -182,7 +182,7 @@ cd RestaurantOrderApp/app
 npm run build
 ```
 
-### Starting deployed application
+## Starting deployed application
 
 on Linux and macOS:
 
