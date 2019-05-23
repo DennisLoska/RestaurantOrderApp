@@ -11,6 +11,8 @@
     "react-scripts": "1.0.17"
   },
   "scripts": {
+    "backend:unix": "cd ../ && sh backend.sh",
+    "backend:win": "cd ../ && backend.bat",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "build-css": "node-sass-chokidar src/ -o src/",
     "start-js": "react-scripts start",

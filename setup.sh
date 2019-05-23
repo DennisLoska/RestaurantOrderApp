@@ -18,7 +18,7 @@ echo "Frontend dependencies installed. Run 'npm start' in a seperate tab to star
 cd $current_directory/
 
 # start virtualenv
-source $current_directory/bin/activate
+source $current_directory/flask-react/bin/activate
 
 # install backend dependencies
 pip install -r requirements.txt
