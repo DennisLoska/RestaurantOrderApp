@@ -1,5 +1,5 @@
-#!/bin/sh
-
+#!/bin/bash
+# changed sh to bash: https://askubuntu.com/questions/504546/error-message-source-not-found-when-running-a-script
 # Prepare Flask backend
 current_directory=$PWD
 
