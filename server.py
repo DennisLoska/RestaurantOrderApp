@@ -3,11 +3,16 @@ import pymongo
 import bcrypt
 from flask import Flask, request, Response, jsonify, render_template, session
 
-client = pymongo.MongoClient("localhost", 27017)
-db = client["db_restaurant"]
+client = pymongo.MongoClient(
+    "mongodb://admin:CXuK1qvc7C6V8Av4XPyI@codefree-shard-00-00-2k3ax.mongodb.net:27017,codefree-shard-00-01-2k3ax.mongodb.net:27017,codefree-shard-00-02-2k3ax.mongodb.net:27017/test?ssl=true&replicaSet=codefree-shard-0&authSource=admin&retryWrites=true")
+db = client["restaurant"]
 customers = db.customers
 orders = db.orders
 items = db.items
+
+# test connection: creates new user - works!
+# customers.insert_one(
+#    {'user': 'John Doe', 'email': 'jd@email.com', 'password': 'htw'})
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
