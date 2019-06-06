@@ -5,6 +5,7 @@ import history from './history';
 import Home from './components/Home';
 import Login from './components/Login';
 import TableMenu from './components/TableMenu';
+import SignUp from './components/SignUp';
 import './App.css';
 
 const TestRoute = () => {
@@ -45,6 +46,7 @@ class App extends Component {
               <Route path="/test" exact component={TestRoute} />
               <Route path="/order" component={Order} />
               <Route path="/login" exact component={Login} />
+              <Route path="/signup" exact component={SignUp}/>
             </Switch>
           </div>
         </Router>
