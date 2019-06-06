@@ -11,22 +11,27 @@ const TestRoute = () => {
   return <h1>Test route</h1>;
 };
 
-const Order = () => {
+const Order = ({ match }) => {
   // dummy data
   const history = [];
-  const orders = [];
+  const menus = [];
 
   // TODO: avoid strings everywhere (i.e. price)
   for (let index = 0; index < 5; index++) {
-    orders.push({
-      image:
-        'https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg',
+    menus.push({
+      id: index,
+      image: 'https://static.thenounproject.com/png/340719-200.png',
       food: 'Lorem Ipsum',
       price: '€ 1.00'
     });
-    history.push({ date: 'dd.mm.yyyy', food: 'Balla Lorem' });
+    history.push({ id: index, date: 'dd.mm.yyyy', food: 'Balla Lorem' });
   }
-  return <TableMenu orders={orders} history={history} />;
+  return (
+    <main>
+      <h1>Table Order</h1>
+      <TableMenu match={match} menus={menus} history={history} />
+    </main>
+  );
 };
 
 class App extends Component {
@@ -38,7 +43,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/test" exact component={TestRoute} />
-              <Route path="/order" exact component={Order} />
+              <Route path="/order" component={Order} />
               <Route path="/login" exact component={Login} />
             </Switch>
           </div>

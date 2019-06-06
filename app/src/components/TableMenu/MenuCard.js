@@ -1,10 +1,44 @@
 import React from 'react';
+import './TableMenu.css';
 
 /**
- * Displays available menu options (dishes, drinks etc.)
+ * List of available menu options
+ *
+ * @param {Object} props Properties
+ * @param {{ id: string, image: string, food: string, price: string }[]} props.menus List of food options
  */
-const MenuCard = () => {
-  return <p>Unimplemented!</p>;
+const MenuCard = props => {
+  return (
+    <div id="menu">
+      {props.menus.map(order => {
+        const { id, image, food, price } = order;
+        return <MenuItem key={id} image={image} food={food} price={price} />;
+      })}
+    </div>
+  );
+};
+
+/**
+ * @param {Object} props Properties
+ * @param {string} props.image Path to the image
+ * @param {string} props.food Name of menu option
+ * @param {string} props.price Price of menu option
+ */
+const MenuItem = props => {
+  const { image, food, price } = props;
+  return (
+    <div>
+      <img
+        width="100px"
+        height="100px"
+        src={image}
+        alt={food}
+        style={{ float: 'left' }}
+      />
+      <p>{food}</p>
+      <p>{price}</p>
+    </div>
+  );
 };
 
 export default MenuCard;
