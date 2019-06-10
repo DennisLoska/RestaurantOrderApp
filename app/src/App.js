@@ -8,6 +8,11 @@ import TableMenu from './components/TableMenu';
 import SignUp from './components/SignUp';
 import './App.css';
 
+//initializing the socket connection
+import SocketClient from './components/Socket/SocketClient';
+const socket = new SocketClient();
+socket.connect();
+
 const TestRoute = () => {
   return <h1>Test route</h1>;
 };
@@ -46,7 +51,7 @@ class App extends Component {
               <Route path="/test" exact component={TestRoute} />
               <Route path="/order" component={Order} />
               <Route path="/login" exact component={Login} />
-              <Route path="/signup" exact component={SignUp}/>
+              <Route path="/signup" exact component={SignUp} />
             </Switch>
           </div>
         </Router>
