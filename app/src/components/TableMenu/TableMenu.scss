@@ -2,8 +2,20 @@ h1 {
   text-align: center;
 }
 
+#container {
+  display: flex;
+}
+
 .tab-content {
   padding: 0.5rem;
+}
+
+#menuOptions {
+  flex-grow: 2;
+}
+
+#liveOrder {
+  flex-grow: 1;
 }
 
 #menu {

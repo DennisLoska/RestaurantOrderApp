@@ -43,19 +43,15 @@ const Order = ({ match }) => {
 class App extends Component {
   render() {
     return (
-      <div>
-        <Router history={history}>
-          <div>
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/test" exact component={TestRoute} />
-              <Route path="/order" component={Order} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/signup" exact component={SignUp} />
-            </Switch>
-          </div>
-        </Router>
-      </div>
+      <Router history={history}>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/test" exact component={TestRoute} />
+          <Route path="/order" component={Order} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={SignUp} />
+        </Switch>
+      </Router>
     );
   }
 }

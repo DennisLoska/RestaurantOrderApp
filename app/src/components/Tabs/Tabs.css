@@ -1,7 +1,3 @@
-.tab-navbar {
-  height: 100%;
-  width: 100%; }
-
 .tab-nav {
   display: flex;
   justify-items: center;
@@ -31,7 +27,3 @@
 
 .active.tab-nav-item .tab-nav-link {
   color: white; }
-
-.tab-content {
-  height: 100%;
-  width: 100%; }

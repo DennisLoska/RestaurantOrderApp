@@ -2,6 +2,7 @@ import React from 'react';
 
 import MenuCard from './MenuCard';
 import OrderHistory from './OrderHistory';
+import LiveOrder from './LiveOrder';
 import Tabs from '../Tabs';
 
 /**
@@ -20,19 +21,25 @@ const TableMenu = props => {
   } = props;
 
   return (
-    <Tabs>
-      <MenuCard
-        activeOnlyWhenExact={true}
-        to={path}
-        label="Menu Card"
-        menus={menus}
-      />
-      <OrderHistory
-        to={`${path}/history`}
-        label="Order History"
-        history={history}
-      />
-    </Tabs>
+    <div id="container">
+      <section id="menuOptions">
+        <Tabs>
+          <MenuCard
+            to={path}
+            label="Menu Card"
+            menus={menus}
+          />
+          <OrderHistory
+            to={`${path}/history`}
+            label="Order History"
+            history={history}
+          />
+        </Tabs>
+      </section>
+      <section id="liveOrder">
+        <LiveOrder />
+      </section>
+    </div>
   );
 };
 

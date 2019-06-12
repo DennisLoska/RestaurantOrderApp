@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import './Tabs.css';
 
 /**
@@ -32,11 +32,11 @@ const TabNavigation = props => {
     <nav className="tab-navbar">
       <ul className="tab-nav">
         {components.map(component => {
-          const { activeOnlyWhenExact, to, label } = component.props;
+          const { to, label } = component.props;
           return (
             <Route
               key={label}
-              exact={activeOnlyWhenExact}
+              exact
               path={to}
               children={({ match }) => (
                 <li className={match ? 'active tab-nav-item' : 'tab-nav-item'}>
@@ -64,17 +64,12 @@ const TabContent = props => {
 
   return (
     <div className="tab-content">
-      {components.map(component => {
-        const { activeOnlyWhenExact, to, label } = component.props;
-        return (
-          <Route
-            key={label}
-            exact={activeOnlyWhenExact}
-            path={to}
-            render={() => component}
-          />
-        );
-      })}
+      <Switch>
+        {components.map(component => {
+          const { to, label } = component.props;
+          return <Route key={label} exact path={to} render={() => component} />;
+        })}
+      </Switch>
     </div>
   );
 };
