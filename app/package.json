@@ -14,8 +14,8 @@
   "scripts": {
     "backend:unix": "cd ../ && sh backend.sh",
     "backend:win": "cd ../ && backend.bat",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "start-js": "react-scripts start",
     "build-js": "react-scripts build",
     "start": "npm-run-all -p watch-css start-js",
