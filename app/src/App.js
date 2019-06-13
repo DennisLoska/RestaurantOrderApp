@@ -21,6 +21,18 @@ const Order = ({ match }) => {
   // dummy data
   const history = [];
   const menus = [];
+  const orders = [
+    {
+      id: 1,
+      name: 'Tom',
+      orders: [
+        { id: 1, count: 1, name: 'Salat mit Lachsspießen' },
+        { id: 2, count: 1, name: 'Match Latte' }
+      ]
+    },
+    { id: 2, name: 'Lisa', orders: [] },
+    { id: 3, name: 'Maria', orders: [] }
+  ];
 
   // TODO: avoid strings everywhere (i.e. price)
   for (let index = 0; index < 5; index++) {
@@ -35,7 +47,7 @@ const Order = ({ match }) => {
   return (
     <main>
       <h1>Table Order</h1>
-      <TableMenu match={match} menus={menus} history={history} />
+      <TableMenu match={match} menus={menus} history={history} orders={orders} />
     </main>
   );
 };

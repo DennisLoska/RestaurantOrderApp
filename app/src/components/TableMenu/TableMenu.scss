@@ -1,9 +1,12 @@
+@import 'variables.scss';
+
 h1 {
   text-align: center;
 }
 
 #container {
   display: flex;
+  justify-content: space-between;
 }
 
 .tab-content {
@@ -11,6 +14,7 @@ h1 {
 }
 
 #menuOptions {
+  min-width: calc(100% * 2 / 3);
   flex-grow: 2;
 }
 
@@ -21,4 +25,42 @@ h1 {
 #menu {
   display: flex;
   flex-direction: column;
+}
+
+#liveOrder button {
+  background-color: $color-green;
+  color: white;
+}
+
+.orderLine {
+  display: flex;
+  align-items: center;
+}
+
+.btn-sm {
+  min-width: 1.1rem;
+  min-height: 1.1rem;
+  font-size: .5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0rem .125rem;
+}
+
+#orderNow {
+  display: block;
+  margin: auto;
+}
+
+@media screen and (max-width: 1000px) {
+  #container {
+    flex-direction: column;
+  }
+
+  #menuOptions {
+    order: 2;
+  }
+
+  #liveOrder {
+    order: 1;
+  }
 }

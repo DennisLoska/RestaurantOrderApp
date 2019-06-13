@@ -17,18 +17,15 @@ const TableMenu = props => {
   const {
     match: { path },
     menus,
-    history
+    history,
+    orders
   } = props;
 
   return (
     <div id="container">
       <section id="menuOptions">
         <Tabs>
-          <MenuCard
-            to={path}
-            label="Menu Card"
-            menus={menus}
-          />
+          <MenuCard to={path} label="Menu Card" menus={menus} />
           <OrderHistory
             to={`${path}/history`}
             label="Order History"
@@ -37,7 +34,7 @@ const TableMenu = props => {
         </Tabs>
       </section>
       <section id="liveOrder">
-        <LiveOrder />
+        <LiveOrder users={orders} />
       </section>
     </div>
   );

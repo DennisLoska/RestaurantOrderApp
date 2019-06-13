@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .tab-nav {
   display: flex;
   justify-items: center;
@@ -11,12 +13,12 @@
   flex-grow: 1;
   border-width: 1rem;
   text-align: center;
-  border: solid lightseagreen;
+  border: solid $color-green;
   padding: 0.5rem;
 }
 
 .active.tab-nav-item {
-  background-color: lightseagreen;
+  background-color: $color-green;
 }
 
 .tab-nav-link {
@@ -26,7 +28,7 @@
 }
 
 .tab-nav-link:hover {
-  color: lightseagreen;
+  color: $color-green;
   text-decoration: none;
 }
 

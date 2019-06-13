@@ -10,8 +10,8 @@ import './TableMenu.css';
 const MenuCard = props => {
   return (
     <div id="menu">
-      {props.menus.map(order => {
-        const { id, image, food, price } = order;
+      {props.menus.map(menu => {
+        const { id, image, food, price } = menu;
         return <MenuItem key={id} image={image} food={food} price={price} />;
       })}
     </div>
