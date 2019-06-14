@@ -43,7 +43,7 @@ def serve():
     )
 
 
-@app.route('api/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         customers = db.customers
