@@ -31,4 +31,5 @@ export FLASK_APP=server.py
 
 echo "Starting Flask server."
 # run Flask app
-flask run
+# flask run
+python $current_directory/server.py

@@ -198,4 +198,4 @@ cd RestaurantOrderApp/app
 npm run backend:win
 ```
 
-Visit http://localhost:5000 to view the deployed app!
+Visit http://localhost:3000 to view the deployed app!

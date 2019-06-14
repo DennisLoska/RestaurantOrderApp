@@ -1,42 +1,42 @@
 import React from 'react';
-import './TableMenu.css';
 
 import MenuCard from './MenuCard';
-import MenuOrder from './MenuOrder';
 import OrderHistory from './OrderHistory';
+import LiveOrder from './LiveOrder';
 import Tabs from '../Tabs';
 
 /**
  * Displays the orders of this table and the menu options of the customer
+ *
  * @param {Object} props Properties
- * @param {{image: string, food: string, price: string}[]} props.orders Current orders for this table
- * @param {{date: string, food: string}} props.history Previous orders
+ * @param {{path: string}} props.match The path pattern used to match
+ * @param {{id: string, image: string, food: string, price: string}[]} props.menus Current orders for this table
+ * @param {{id: string, date: string, food: string}} props.history Previous orders
  */
 const TableMenu = props => {
-  return (
-    <React.Fragment>
-      <header>
-        <h1>Table Order</h1>
-      </header>
-      <main>
-        <MenuOptions orders={props.orders} history={props.history} />
-      </main>
-    </React.Fragment>
-  );
-};
+  const {
+    match: { path },
+    menus,
+    history,
+    orders
+  } = props;
 
-/**
- * @param {Object} props Properties
- * @param {{image: string, food: string, price: string}[]} props.orders Current orders for this table
- * @param {{date: string, food: string}} props.history Previous orders
- */
-const MenuOptions = props => {
   return (
-    <Tabs>
-      <MenuCard label="Speisekarte" />
-      <MenuOrder label="Ausgewählte Gerichte" orders={props.orders} />
-      <OrderHistory label="Bestellverlauf" history={props.history} />
-    </Tabs>
+    <div id="container">
+      <section id="menuOptions">
+        <Tabs>
+          <MenuCard to={path} label="Menu Card" menus={menus} />
+          <OrderHistory
+            to={`${path}/history`}
+            label="Order History"
+            history={history}
+          />
+        </Tabs>
+      </section>
+      <section id="liveOrder">
+        <LiveOrder users={orders} />
+      </section>
+    </div>
   );
 };
 

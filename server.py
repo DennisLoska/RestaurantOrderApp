@@ -2,6 +2,7 @@ import json
 import pymongo
 import bcrypt
 from flask import Flask, request, Response, jsonify, render_template, session
+from flask_socketio import SocketIO, emit
 
 client = pymongo.MongoClient(
     "mongodb://admin:CXuK1qvc7C6V8Av4XPyI@codefree-shard-00-00-2k3ax.mongodb.net:27017,codefree-shard-00-01-2k3ax.mongodb.net:27017,codefree-shard-00-02-2k3ax.mongodb.net:27017/test?ssl=true&replicaSet=codefree-shard-0&authSource=admin&retryWrites=true")
@@ -16,6 +17,7 @@ items = db.items
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
+socketio = SocketIO(app)
 
 notes = {
     0: 'Frontend is using React',
@@ -71,9 +73,18 @@ def not_found(error):
     return render_template('index.html')
 
 
+@socketio.on('connect')
+def test_connect():
+    print('Client connected')
+    emit('connected', request.sid)
+
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+
+
+# https://stackoverflow.com/questions/53522052/flask-app-valueerror-signal-only-works-in-main-thread
 if __name__ == '__main__':
-    app.run(
-        host='0.0.0.0',
-        port=5000,
-        debug=True
-    )
+    socketio.run(app, host='0.0.0.0',
+                 port=5000, debug=True)

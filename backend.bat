@@ -11,4 +11,5 @@ set FLASK_APP=server.py
 
 echo Starting Flask server.
 REM run Flask app
-call flask run
+REM call flask run
+call python %current_directory%\server.py

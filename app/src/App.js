@@ -8,26 +8,48 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import './App.css';
 
+//initializing the socket connection
+import SocketClient from './components/Socket/SocketClient';
+const socket = new SocketClient();
+socket.connect();
+
 const TestRoute = () => {
   return <h1>Test route</h1>;
 };
 
-const Order = () => {
+const Order = ({ match }) => {
   // dummy data
   const history = [];
-  const orders = [];
+  const menus = [];
+  const orders = [
+    {
+      id: 1,
+      name: 'Tom',
+      orders: [
+        { id: 1, count: 1, name: 'Salat mit Lachsspießen' },
+        { id: 2, count: 1, name: 'Match Latte' }
+      ]
+    },
+    { id: 2, name: 'Lisa', orders: [] },
+    { id: 3, name: 'Maria', orders: [] }
+  ];
 
   // TODO: avoid strings everywhere (i.e. price)
   for (let index = 0; index < 5; index++) {
-    orders.push({
-      image:
-        'https://foodrevolution.org/wp-content/uploads/2018/04/blog-featured-diabetes-20180406-1330.jpg',
+    menus.push({
+      id: index,
+      image: 'https://static.thenounproject.com/png/340719-200.png',
       food: 'Lorem Ipsum',
       price: '€ 1.00'
     });
-    history.push({ date: 'dd.mm.yyyy', food: 'Balla Lorem' });
+    history.push({ id: index, date: 'dd.mm.yyyy', food: 'Balla Lorem' });
   }
-  return <TableMenu orders={orders} history={history} />;
+  return (
+    <main>
+      <h1>Table Order</h1>
+      <TableMenu match={match} menus={menus} history={history} orders={orders} />
+    </main>
+  );
 };
 
 class App extends Component {
