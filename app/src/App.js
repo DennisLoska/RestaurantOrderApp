@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
-
-import Home from './components/Home';
 import Login from './components/Login';
 import TableMenu from './components/TableMenu';
 import SignUp from './components/SignUp';
@@ -12,10 +10,6 @@ import './App.css';
 import SocketClient from './components/Socket/SocketClient';
 const socket = new SocketClient();
 socket.connect();
-
-const TestRoute = () => {
-  return <h1>Test route</h1>;
-};
 
 const Order = ({ match }) => {
   // dummy data
@@ -47,7 +41,12 @@ const Order = ({ match }) => {
   return (
     <main>
       <h1>Table Order</h1>
-      <TableMenu match={match} menus={menus} history={history} orders={orders} />
+      <TableMenu
+        match={match}
+        menus={menus}
+        history={history}
+        orders={orders}
+      />
     </main>
   );
 };
@@ -57,8 +56,7 @@ class App extends Component {
     return (
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/test" exact component={TestRoute} />
+          <Route path="/" exact component={SignUp} />
           <Route path="/order" component={Order} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={SignUp} />
