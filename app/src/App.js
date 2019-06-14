@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
-import Login from './components/Login';
 import TableMenu from './components/TableMenu';
 import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
 import './App.css';
 
 //initializing the socket connection
@@ -54,14 +54,18 @@ const Order = ({ match }) => {
 class App extends Component {
   render() {
     return (
-      <Router history={history}>
-        <Switch>
-          <Route path="/" exact component={SignUp} />
-          <Route path="/order" component={Order} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/signup" exact component={SignUp} />
-        </Switch>
-      </Router>
+      <div>
+        <Router history={history}>
+          <div>
+            <Switch>
+              <Route path="/" exact component={SignIn} />
+              <Route path="/order" component={Order} />
+              <Route path="/signin" exact component={SignIn} />
+              <Route path="/signup" exact component={SignUp} />
+            </Switch>
+          </div>
+        </Router>
+      </div>
     );
   }
 }

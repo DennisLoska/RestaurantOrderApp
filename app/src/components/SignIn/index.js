@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import './SignUp.css';
+import './SignIn.css';
 
-const SignUp = () => {
+const SignIn = () => {
     const [state, setState] = useState({
         email: '',
-        password: '',
-        firstName: '',
-        lastName: ''
+        password: ''
     });
 
     const handleChange = (e) => {
@@ -25,30 +23,19 @@ const SignUp = () => {
         formData.append('email', state.email);
         formData.append('password', state.password);
     
-        fetch("http://localhost:5000/api/register", {
-            body: JSON.stringify(formData),
+        fetch("http://localhost:5000", {
+            body: formData,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
             method: "post",
         });
-  
     };
-
-    
 
     return (
         <main>
-            <form className="signup" onSubmit={handleSubmit}>
-                <h2 className="grey-text text-darken-3">Sign Up</h2>
-                <div className="form-group">
-                    <label htmlFor="firstName">First Name </label>
-                    <input className="form-control" type="text" id="firstName" onChange={handleChange} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="lastName">Last Name </label>
-                    <input className="form-control" type="text" id="lastName" onChange={handleChange} />
-                </div>
+            <form className="signin" onSubmit={handleSubmit}>
+                <h2 className="grey-text text-darken-3">Sign In</h2>
                 <div className="form-group">
                     <label htmlFor="email">Email </label>
                     <input className="form-control" type="email" id="email" onChange={handleChange} />
@@ -58,7 +45,7 @@ const SignUp = () => {
                     <input className="form-control" type="password" id="password" onChange={handleChange} />
                 </div>
                 <div>
-                    <button className="btn btn-primary">Sign Up</button>
+                    <button className="btn btn-primary">Sign In</button>
                 </div>
             </form>
         </main>
@@ -113,4 +100,4 @@ const SignUp = () => {
 //         )
 //     }
 // }
-export default SignUp
+export default SignIn
