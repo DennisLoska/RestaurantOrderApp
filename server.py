@@ -66,9 +66,7 @@ def login():
     users = db.customers
     login_user = users.find_one(
         {'username': request.form['username']})
-    print(request.form['username'])
     if login_user:
-        print('test')
         hashed_pw = bcrypt.hashpw(request.form['password'].encode(
             'utf-8'), login_user['password'].encode('utf-8'))
         if hashed_pw == login_user['password'].encode('utf-8'):
