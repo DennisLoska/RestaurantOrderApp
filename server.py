@@ -17,6 +17,7 @@ items = db.items
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
+app.secret_key = 'csrf_secret'
 socketio = SocketIO(app)
 
 notes = {
@@ -51,13 +52,14 @@ def register():
             {'name': request.form['username']})
         if existing_customer is None:
             hashpass = bcrypt.hashpw(
-                request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+                request.form['password'].encode('utf-8'), bcrypt.gensalt())
             customers.insert(
                 {'name': request.form['username'], 'email': request.form['email'], 'password': hashpass})
             session['username'] = request.form['username']
+            print(session['username'])
             return render_template('index.html')
         else:
-            return 'That username already exists!'
+            return 'User already exists!'  # render_template('index.html')
 
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
