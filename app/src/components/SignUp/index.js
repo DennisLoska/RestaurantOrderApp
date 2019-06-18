@@ -28,9 +28,6 @@ const SignUp = () => {
     // formData.append('password', state.password);
     // fetch('http://localhost:3000/api/register', {
     //   body: formData,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   },
     //   method: 'post'
     // });
   };

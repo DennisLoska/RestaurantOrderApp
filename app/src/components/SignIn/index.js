@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import history from '../../history';
 import './SignIn.css';
 
 const SignIn = () => {
   const [state, setState] = useState({
-    email: '',
+    username: '',
     password: ''
   });
 
@@ -11,7 +12,7 @@ const SignIn = () => {
     //console.log(e)
     setState({
       ...state,
-      [e.target.id]: e.target.value
+      [e.target.name]: e.target.value
     });
   };
 
@@ -19,17 +20,22 @@ const SignIn = () => {
     //console.log(e)
     e.preventDefault();
     console.log(state);
-    var formData = new FormData();
-    formData.append('email', state.email);
+    let formData = new FormData();
+    formData.append('username', state.username);
     formData.append('password', state.password);
 
-    fetch('http://localhost:5000', {
+    fetch('http://localhost:5000/api/login', {
+      mode: 'no-cors',
       body: formData,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
       method: 'post'
-    });
+    })
+      .then(response => response.json())
+      .catch(err => console.log(err))
+      .then(data => {
+        if (data.logged_in) history.push('order');
+        else alert(data.error);
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -37,25 +43,27 @@ const SignIn = () => {
       <form className="signin" onSubmit={handleSubmit}>
         <h2 className="grey-text text-darken-3">Sign In</h2>
         <div className="form-group">
-          <label htmlFor="email">Email </label>
+          <label htmlFor="username">Username</label>
           <input
             className="form-control"
-            type="email"
-            id="email"
+            type="text"
+            name="username"
             onChange={handleChange}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password </label>
+          <label htmlFor="password">Password</label>
           <input
             className="form-control"
             type="password"
-            id="password"
+            name="password"
             onChange={handleChange}
           />
         </div>
         <div>
-          <button className="btn btn-primary">Sign In</button>
+          <button className="btn btn-primary" type="submit">
+            Sign In
+          </button>
         </div>
       </form>
     </main>

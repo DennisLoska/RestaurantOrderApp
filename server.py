@@ -11,10 +11,6 @@ customers = db.customers
 orders = db.orders
 items = db.items
 
-# test connection: creates new user - works!
-# customers.insert_one(
-#    {'user': 'John Doe', 'email': 'jd@email.com', 'password': 'htw'})
-
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 app.secret_key = 'csrf_secret'
@@ -51,15 +47,49 @@ def register():
         existing_customer = customers.find_one(
             {'name': request.form['username']})
         if existing_customer is None:
-            hashpass = bcrypt.hashpw(
+            hashed_pw = bcrypt.hashpw(
                 request.form['password'].encode('utf-8'), bcrypt.gensalt())
             customers.insert(
-                {'name': request.form['username'], 'email': request.form['email'], 'password': hashpass})
+                {'first_name': request.form['firstname'],
+                 'last_name': request.form['lastname'],
+                 'username': request.form['username'],
+                 'email': request.form['email'],
+                 'password': hashed_pw})
             session['username'] = request.form['username']
-            print(session['username'])
             return render_template('index.html')
         else:
             return 'User already exists!'  # render_template('index.html')
+
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    users = db.customers
+    login_user = users.find_one(
+        {'username': request.form['username']})
+    print(request.form['username'])
+    if login_user:
+        print('test')
+        hashed_pw = bcrypt.hashpw(request.form['password'].encode(
+            'utf-8'), login_user['password'].encode('utf-8'))
+        if hashed_pw == login_user['password'].encode('utf-8'):
+            session['username'] = request.form['username']
+            session['logged_in'] = True
+            return Response(
+                json.dumps({'logged_in': True}),
+                mimetype='application/json',
+                headers={
+                    'Cache-Control': 'no-cache',
+                    'Access-Control-Allow-Origin': '*'
+                })
+    return Response(
+        json.dumps({'logged_in': False,
+                    'error': 'Wrong username or password!'}),
+        mimetype='application/json',
+        headers={
+            'Cache-Control': 'no-cache',
+            'Access-Control-Allow-Origin': '*'
+        })
+
 
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
