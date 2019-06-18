@@ -4,12 +4,11 @@ import './SignIn.css';
 
 const SignIn = () => {
   const [state, setState] = useState({
-    username: '',
+    userName: '',
     password: ''
   });
 
   const handleChange = e => {
-    //console.log(e)
     setState({
       ...state,
       [e.target.name]: e.target.value
@@ -17,13 +16,11 @@ const SignIn = () => {
   };
 
   const handleSubmit = e => {
-    //console.log(e)
     e.preventDefault();
     console.log(state);
     let formData = new FormData();
-    formData.append('username', state.username);
+    formData.append('username', state.userName);
     formData.append('password', state.password);
-
     fetch('http://localhost:5000/api/login', {
       mode: 'no-cors',
       body: formData,
@@ -49,6 +46,7 @@ const SignIn = () => {
             type="text"
             name="username"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -58,6 +56,7 @@ const SignIn = () => {
             type="password"
             name="password"
             onChange={handleChange}
+            required
           />
         </div>
         <div>

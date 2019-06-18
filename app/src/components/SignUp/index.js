@@ -7,6 +7,7 @@ const SignUp = () => {
     email: '',
     password: '',
     firstName: '',
+    userName: '',
     lastName: ''
   });
 
@@ -32,6 +33,7 @@ const SignUp = () => {
     // });
   };
 
+  //TODO refactor to use fetch instead of form
   return (
     <main>
       <form
@@ -45,6 +47,7 @@ const SignUp = () => {
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
           <input
+            required
             className="form-control"
             type="text"
             id="firstName"
@@ -55,6 +58,7 @@ const SignUp = () => {
         <div className="form-group">
           <label htmlFor="lastName">Last Name</label>
           <input
+            required
             className="form-control"
             type="text"
             id="lastName"
@@ -65,6 +69,7 @@ const SignUp = () => {
         <div className="form-group">
           <label htmlFor="userName">User Name</label>
           <input
+            required
             className="form-control"
             type="text"
             id="userName"
@@ -75,6 +80,7 @@ const SignUp = () => {
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
+            required
             className="form-control"
             type="email"
             id="email"
@@ -85,6 +91,7 @@ const SignUp = () => {
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
+            required
             className="form-control"
             type="password"
             id="password"
