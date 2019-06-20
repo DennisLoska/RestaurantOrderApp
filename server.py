@@ -45,7 +45,7 @@ def register():
     if request.method == 'POST':
         customers = db.customers
         existing_customer = customers.find_one(
-            {'name': request.form['username']})
+            {'username': request.form['username']})
         if existing_customer is None:
             hashed_pw = bcrypt.hashpw(
                 request.form['password'].encode('utf-8'), bcrypt.gensalt())
@@ -56,9 +56,22 @@ def register():
                  'email': request.form['email'],
                  'password': hashed_pw})
             session['username'] = request.form['username']
-            return render_template('index.html')
+            return Response(
+                json.dumps({'logged_in': True}),
+                mimetype='application/json',
+                headers={
+                    'Cache-Control': 'no-cache',
+                    'Access-Control-Allow-Origin': '*'
+                })
         else:
-            return 'User already exists!'  # render_template('index.html')
+            return Response(
+                json.dumps({'logged_in': False,
+                            'error': 'User with same name already exists!'}),
+                mimetype='application/json',
+                headers={
+                    'Cache-Control': 'no-cache',
+                    'Access-Control-Allow-Origin': '*'
+                })
 
 
 @app.route('/api/login', methods=['POST'])

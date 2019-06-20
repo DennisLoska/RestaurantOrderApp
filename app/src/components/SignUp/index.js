@@ -15,34 +15,36 @@ const SignUp = () => {
     //console.log(e)
     setState({
       ...state,
-      [e.target.id]: e.target.value
+      [e.target.name]: e.target.value
     });
   };
 
   const handleSubmit = e => {
-    //history.push('/');
-    //console.log(e)
-    //e.preventDefault();
-    // console.log(state);
-    // var formData = new FormData();
-    // formData.append('email', state.email);
-    // formData.append('password', state.password);
-    // fetch('http://localhost:3000/api/register', {
-    //   body: formData,
-    //   method: 'post'
-    // });
+    e.preventDefault();
+    console.log(state);
+    let formData = new FormData();
+    formData.append('firstname', state.firstName);
+    formData.append('lastname', state.lastName);
+    formData.append('username', state.userName);
+    formData.append('email', state.email);
+    formData.append('password', state.password);
+    fetch('http://localhost:5000/api/register', {
+      mode: 'no-cors',
+      body: formData,
+      method: 'post'
+    })
+      .then(response => response.json())
+      .catch(err => console.log(err))
+      .then(data => {
+        if (data.logged_in) history.push('order');
+        else alert(data.error);
+      })
+      .catch(err => console.log(err));
   };
 
-  //TODO refactor to use fetch instead of form
   return (
     <main>
-      <form
-        action="http://localhost:5000/api/register"
-        method="post"
-        className="signup"
-        onSubmit={handleSubmit}
-        encType="multipart/form-data"
-      >
+      <form className="signup" onSubmit={handleSubmit}>
         <h2 className="grey-text text-darken-3">Sign Up</h2>
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
@@ -50,8 +52,7 @@ const SignUp = () => {
             required
             className="form-control"
             type="text"
-            id="firstName"
-            name="firstname"
+            name="firstName"
             onChange={handleChange}
           />
         </div>
@@ -61,19 +62,17 @@ const SignUp = () => {
             required
             className="form-control"
             type="text"
-            id="lastName"
-            name="lastname"
+            name="lastName"
             onChange={handleChange}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="userName">User Name</label>
+          <label htmlFor="userName">Username</label>
           <input
             required
             className="form-control"
             type="text"
-            id="userName"
-            name="username"
+            name="userName"
             onChange={handleChange}
           />
         </div>
@@ -83,7 +82,6 @@ const SignUp = () => {
             required
             className="form-control"
             type="email"
-            id="email"
             name="email"
             onChange={handleChange}
           />
@@ -94,7 +92,6 @@ const SignUp = () => {
             required
             className="form-control"
             type="password"
-            id="password"
             name="password"
             onChange={handleChange}
           />
