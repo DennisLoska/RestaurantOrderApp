@@ -1,0 +1,12 @@
+.tables > div {
+  display: inline-block;
+  margin: auto;
+  height: 120px;
+  width: 30%;
+  background-color: #E7D567;
+  border: 3px white solid;
+  padding: 10px; }
+
+h1 {
+  font-family: Lucida Bright;
+  color: #1DB7A8; }

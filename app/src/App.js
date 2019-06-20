@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import TableMenu from './components/TableMenu';
 import SignUp from './components/SignUp';
+import Tables from './components/Tables';
 import './App.css';
 
 //initializing the socket connection
@@ -40,6 +41,11 @@ const Order = ({ match }) => {
   );
 };
 
+const tableCreator = () => {
+  const names = ["Affe", "Löwe", "Hund", "Katze", "Maus", "Schlange"];
+  console.log(names);
+  return <Tables names={names}></Tables>}
+
 class App extends Component {
   render() {
     return (
@@ -50,6 +56,7 @@ class App extends Component {
           <Route path="/order" component={Order} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={SignUp} />
+          <Route path="/tables" exact component={tableCreator} />
         </Switch>
       </Router>
     );
