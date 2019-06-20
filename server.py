@@ -90,11 +90,55 @@ def login():
         })
 
 
-@app.route('/logout')
+@app.route('/api/logout')
 def logout():
     # remove the username from the session
     session.pop('username', None)
     return render_template('index.html')
+
+
+@app.route('/api/orders', methods=['GET'])
+def getOrders():
+    orders = db.orders
+    user_orders = orders.find({'username': session['username']})
+    if user_orders:
+        return Response(
+            json.dumps({'orders': user_orders}),
+            mimetype='application/json',
+            headers={
+                'Cache-Control': 'no-cache',
+                'Access-Control-Allow-Origin': '*'
+            })
+    else:
+        return Response(
+            json.dumps({'error': 'No orders found!'}),
+            mimetype='application/json',
+            headers={
+                'Cache-Control': 'no-cache',
+                'Access-Control-Allow-Origin': '*'
+            })
+
+
+@app.route('/api/items', methods=['GET'])
+def getItems():
+    items = db.items
+    restaurant_items = items.find()
+    if restaurant_items:
+        return Response(
+            json.dumps({'items': restaurant_items}),
+            mimetype='application/json',
+            headers={
+                'Cache-Control': 'no-cache',
+                'Access-Control-Allow-Origin': '*'
+            })
+    else:
+        return Response(
+            json.dumps({'error': 'No items found!'}),
+            mimetype='application/json',
+            headers={
+                'Cache-Control': 'no-cache',
+                'Access-Control-Allow-Origin': '*'
+            })
 
 
 # Routing - we do not use the Flask server for routing in our application
