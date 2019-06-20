@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './SignUp.css';
 import SignIn from '../SignIn';
-import Navigation from '../SignIn/navigation'
+import history from '../../history';
+import Navigation from '../SignIn/navigation';
 
 const SignUp = () => {
   const [state, setState] = useState({
@@ -18,6 +19,7 @@ const SignUp = () => {
       ...state,
       [e.target.name]: e.target.value
     });
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -44,7 +46,7 @@ const SignUp = () => {
 
   return (
     <main>
-      <Navigation></Navigation>
+      <Navigation />
       <form className="signup" onSubmit={handleSubmit}>
         <h2 className="grey-text text-darken-3">Sign Up</h2>
         <div className="form-group">
@@ -104,7 +106,6 @@ const SignUp = () => {
     </main>
   );
 };
-
 //         })
 //     }
 //     handleSubmit = (e) => {
@@ -141,4 +142,4 @@ const SignUp = () => {
 //         )
 //     }
 // }
-export default SignUp
+export default SignUp;
