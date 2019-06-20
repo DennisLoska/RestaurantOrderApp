@@ -11,9 +11,12 @@ customers = db.customers
 orders = db.orders
 items = db.items
 
+# test connection: creates new user - works!
+# customers.insert_one(
+#    {'user': 'John Doe', 'email': 'jd@email.com', 'password': 'htw'})
+
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
-app.secret_key = 'csrf_secret'
 socketio = SocketIO(app)
 
 notes = {
@@ -40,21 +43,17 @@ def serve():
     )
 
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         customers = db.customers
         existing_customer = customers.find_one(
             {'username': request.form['username']})
         if existing_customer is None:
-            hashed_pw = bcrypt.hashpw(
-                request.form['password'].encode('utf-8'), bcrypt.gensalt())
+            hashpass = bcrypt.hashpw(
+                request.form['pass'].encode('utf-8'), bcrypt.gensalt())
             customers.insert(
-                {'first_name': request.form['firstname'],
-                 'last_name': request.form['lastname'],
-                 'username': request.form['username'],
-                 'email': request.form['email'],
-                 'password': hashed_pw})
+                {'name': request.form['username'], 'email': request.form['email'], 'password': hashpass})
             session['username'] = request.form['username']
             return Response(
                 json.dumps({'logged_in': True}),
