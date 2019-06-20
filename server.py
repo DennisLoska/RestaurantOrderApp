@@ -13,7 +13,7 @@ items = db.items
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
-app.secret_key = 'csrf_secret'
+app.secret_key = 'session_secret'
 socketio = SocketIO(app)
 
 notes = {
