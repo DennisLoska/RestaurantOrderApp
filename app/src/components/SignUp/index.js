@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import history from '../../history';
 import './SignUp.css';
+import SignIn from '../SignIn';
+import Navigation from '../SignIn/navigation'
 
 const SignUp = () => {
   const [state, setState] = useState({
@@ -17,7 +18,6 @@ const SignUp = () => {
       ...state,
       [e.target.name]: e.target.value
     });
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -44,6 +44,7 @@ const SignUp = () => {
 
   return (
     <main>
+      <Navigation></Navigation>
       <form className="signup" onSubmit={handleSubmit}>
         <h2 className="grey-text text-darken-3">Sign Up</h2>
         <div className="form-group">
@@ -104,4 +105,40 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+//         })
+//     }
+//     handleSubmit = (e) => {
+//         //console.log(e)
+//         e.preventDefault();
+//         console.log(this.state);
+//     }
+//     render(){
+//         return (
+//             <main>
+//                 <form className="signin" onSubmit={this.handleSubmit}>
+//                     <h2 className="grey-text text-darken-3">Sign In</h2>
+//                     <div className="form-group">
+//                         <label htmlFor="email">SignIn </label>
+//                         <input className="form-control" type="email" id="email" onChange={this.handleChange}/>
+//                     </div>
+//                     <div className="form-group">
+//                         <label htmlFor="passpowd">Password </label>
+//                         <input className="form-control" type="password" id="email" onChange={this.handleChange}/>
+//                     </div>
+//                     <div className="form-group">
+//                         <label htmlFor="firstName">First Name </label>
+//                         <input className="form-control" type="text" id="firstName" onChange={this.handleChange}/>
+//                     </div>
+//                     <div className="form-group">
+//                         <label htmlFor="lastName">Last Name </label>
+//                         <input className="form-control" type="text" id="lastName" onChange={this.handleChange}/>
+//                     </div>
+//                     <div>
+//                         <button className="btn btn-primary">Login</button>
+//                     </div>
+//                 </form>
+//             </main>
+//         )
+//     }
+// }
+export default SignUp

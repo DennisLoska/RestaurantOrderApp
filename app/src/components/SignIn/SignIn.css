@@ -4,3 +4,10 @@
 
 h2 {
   text-align: center; }
+
+.nav-link {
+  font-weight: 600;
+  color: black; }
+
+.nav-link:hover {
+  color: #1DB7A8; }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import history from '../../history';
 import './SignIn.css';
+import SignUp from '../SignUp';
+import Navigation from './navigation';
 
 const SignIn = () => {
   const [state, setState] = useState({
@@ -37,8 +39,9 @@ const SignIn = () => {
 
   return (
     <main>
+      <Navigation></Navigation>
       <form className="signin" onSubmit={handleSubmit}>
-        <h2 className="grey-text text-darken-3">Sign In</h2>
+        {/* <h2 className="grey-text text-darken-3">Sign In</h2> */}
         <div className="form-group">
           <label htmlFor="userName">Username</label>
           <input
