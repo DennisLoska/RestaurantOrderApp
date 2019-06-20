@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 import TableMenu from './components/TableMenu';
+import Tables from './components/Tables';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import './App.css';
@@ -51,6 +52,12 @@ const Order = ({ match }) => {
   );
 };
 
+const TableCreator = () => {
+  const names = ['Affe', 'Löwe', 'Hund', 'Katze', 'Maus', 'Schlange'];
+  console.log(names);
+  return <Tables names={names} />;
+};
+
 class App extends Component {
   render() {
     return (
@@ -62,6 +69,7 @@ class App extends Component {
               <Route path="/order" component={Order} />
               <Route path="/signin" exact component={SignIn} />
               <Route path="/signup" exact component={SignUp} />
+              <Route path="/tables" exact component={TableCreator} />
             </Switch>
           </div>
         </Router>
