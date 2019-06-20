@@ -7,10 +7,8 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import './App.css';
 
-//initializing the socket connection
-import SocketClient from './components/Socket/SocketClient';
-const socket = new SocketClient();
-socket.connect();
+//socket is the socket client available in every component via import
+import socket from './components/Socket/SocketClient';
 
 const Order = ({ match }) => {
   // dummy data
