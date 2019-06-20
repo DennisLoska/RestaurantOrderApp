@@ -40,11 +40,11 @@ const SignIn = () => {
       <form className="signin" onSubmit={handleSubmit}>
         <h2 className="grey-text text-darken-3">Sign In</h2>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="userName">Username</label>
           <input
             className="form-control"
             type="text"
-            name="username"
+            name="userName"
             onChange={handleChange}
             required
           />
