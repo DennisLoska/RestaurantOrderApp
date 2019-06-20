@@ -73,7 +73,8 @@ def login():
             session['username'] = request.form['username']
             session['logged_in'] = True
             return Response(
-                json.dumps({'logged_in': True}),
+                json.dumps({'logged_in': True,
+                            'user': session['username']}),
                 mimetype='application/json',
                 headers={
                     'Cache-Control': 'no-cache',
