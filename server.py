@@ -90,6 +90,13 @@ def login():
         })
 
 
+@app.route('/logout')
+def logout():
+    # remove the username from the session
+    session.pop('username', None)
+    return render_template('index.html')
+
+
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
 # access the route e.g. /test instead of routing to a specific file/template
