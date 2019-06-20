@@ -11,12 +11,9 @@ customers = db.customers
 orders = db.orders
 items = db.items
 
-# test connection: creates new user - works!
-# customers.insert_one(
-#    {'user': 'John Doe', 'email': 'jd@email.com', 'password': 'htw'})
-
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
+app.secret_key = 'csrf_secret'
 socketio = SocketIO(app)
 
 notes = {
@@ -43,34 +40,25 @@ def serve():
     )
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         customers = db.customers
         existing_customer = customers.find_one(
-            {'username': request.form['username']})
+            {'name': request.form['username']})
         if existing_customer is None:
-            hashpass = bcrypt.hashpw(
-                request.form['pass'].encode('utf-8'), bcrypt.gensalt())
+            hashed_pw = bcrypt.hashpw(
+                request.form['password'].encode('utf-8'), bcrypt.gensalt())
             customers.insert(
-                {'name': request.form['username'], 'email': request.form['email'], 'password': hashpass})
+                {'first_name': request.form['firstname'],
+                 'last_name': request.form['lastname'],
+                 'username': request.form['username'],
+                 'email': request.form['email'],
+                 'password': hashed_pw})
             session['username'] = request.form['username']
-            return Response(
-                json.dumps({'logged_in': True}),
-                mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            return render_template('index.html')
         else:
-            return Response(
-                json.dumps({'logged_in': False,
-                            'error': 'User with same name already exists!'}),
-                mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            return 'User already exists!'  # render_template('index.html')
 
 
 @app.route('/api/login', methods=['POST'])
