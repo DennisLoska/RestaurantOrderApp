@@ -1,5 +1,6 @@
 import json
 import pymongo
+from bson import json_util
 import bcrypt
 from flask import Flask, request, Response, jsonify, render_template, session
 from flask_socketio import SocketIO, emit
@@ -122,10 +123,10 @@ def getOrders():
 @app.route('/api/items', methods=['GET'])
 def getItems():
     items = db.items
-    restaurant_items = items.find()
+    restaurant_items = list(items.find())
     if restaurant_items:
         return Response(
-            json.dumps({'items': restaurant_items}),
+            json.dumps(restaurant_items, default=json_util.default),
             mimetype='application/json',
             headers={
                 'Cache-Control': 'no-cache',
