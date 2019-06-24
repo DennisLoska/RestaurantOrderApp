@@ -5,16 +5,27 @@ import './TableMenu.css';
  * List of available menu options
  *
  * @param {Object} props Properties
- * @param {{ id: string, image: string, food: string, price: string }[]} props.menus List of food options
+ * @param {{ _id: object, img_url: string, name: string, price: string, description: string, category: string }[]} props.menus List of food options
  */
 const MenuCard = props => {
-  return (
+  return props.menus.length > 0 ? (
     <div id="menu">
       {props.menus.map(menu => {
-        const { id, image, food, price } = menu;
-        return <MenuItem key={id} image={image} food={food} price={price} />;
+        const { _id, name, description, price, category, img_url } = menu;
+        return (
+          <MenuItem
+            key={_id.$oid}
+            image={img_url}
+            name={name}
+            price={price}
+            description={description}
+            category={category}
+          />
+        );
       })}
     </div>
+  ) : (
+    'Loading items...'
   );
 };
 
@@ -25,18 +36,19 @@ const MenuCard = props => {
  * @param {string} props.price Price of menu option
  */
 const MenuItem = props => {
-  const { image, food, price } = props;
+  const { image, name, price, description, category } = props;
   return (
     <div>
       <img
         width="100px"
         height="100px"
         src={image}
-        alt={food}
+        alt={name}
         style={{ float: 'left' }}
       />
-      <p>{food}</p>
-      <p>{price}</p>
+      <p>{name}</p>
+      <p>{price}€</p>
+      <p>{description}</p>
     </div>
   );
 };
