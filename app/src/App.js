@@ -13,7 +13,6 @@ import socket from './components/Socket/SocketClient';
 const Order = ({ match }) => {
   // dummy data
   const history = [];
-  const menus = [];
   const orders = [
     {
       id: 1,
@@ -29,23 +28,12 @@ const Order = ({ match }) => {
 
   // TODO: avoid strings everywhere (i.e. price)
   for (let index = 0; index < 5; index++) {
-    menus.push({
-      id: index,
-      image: 'https://static.thenounproject.com/png/340719-200.png',
-      food: 'Lorem Ipsum',
-      price: '€ 1.00'
-    });
     history.push({ id: index, date: 'dd.mm.yyyy', food: 'Balla Lorem' });
   }
   return (
     <main>
       <h1>Table Order</h1>
-      <TableMenu
-        match={match}
-        menus={menus}
-        history={history}
-        orders={orders}
-      />
+      <TableMenu match={match} history={history} orders={orders} />
     </main>
   );
 };
