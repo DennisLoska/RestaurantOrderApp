@@ -1,0 +1,63 @@
+@import 'variables.scss';
+@import 'bootstrap/scss/bootstrap-grid.scss';
+
+#navbar {
+  .navbar-brand:hover {
+    color: $color-yellow;
+  }
+
+  .nav-item.active > .nav-link {
+    color: $color-green;
+  }
+
+  > .navbar-nav.collapsed {
+    display: flex;
+  }
+
+  .navbar-toggler:focus {
+    outline: none;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  #navbar {
+    display: grid;
+    grid-template-areas:
+      'toggle logo logo'
+      'links links links';
+    justify-content: space-around;
+    padding: 0rem;
+    box-shadow: 0px 0.25rem 0.25rem 0px rgba(0, 0, 0, 0.15);
+
+    > .navbar-toggler {
+      grid-area: toggle;
+      display: block;
+    }
+
+    > .navbar-brand {
+      grid-area: logo;
+    }
+
+    > .navbar-nav {
+      grid-area: links;
+      padding: 1.5rem 1rem;
+      flex-direction: column;
+
+      &.collapsed {
+        display: none;
+      }
+
+      > .nav-item {
+        border-top: 1px solid $color-dark-gray;
+
+        &:last-child {
+          border-bottom: 1px solid $color-dark-gray;
+        }
+
+        > .nav-link {
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
