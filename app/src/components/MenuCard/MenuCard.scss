@@ -1,0 +1,18 @@
+@import 'variables.scss';
+
+#menu-card > .navbar-nav {
+  flex-wrap: wrap;
+  white-space: nowrap;
+}
+
+.card-img-left {
+  min-height: 5rem;
+  min-width: 5rem;
+  max-width: 16rem;
+  max-height: 9rem;
+  margin: auto;
+}
+
+.nav-item.nav-link.active {
+  color: $color-green;
+}

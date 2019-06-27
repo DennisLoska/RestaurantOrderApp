@@ -1,0 +1,25 @@
+@import 'variables.scss';
+@import 'bootstrap/scss/bootstrap-grid.scss';
+
+#history {
+  color: $text-color;
+
+  > .thead-dark {
+    th {
+      background-color: $color-green;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  #history {
+    tr {
+      display: flex;
+      flex-direction: column;
+    }
+
+    > .thead-dark {
+      display: none;
+    }
+  }
+}
