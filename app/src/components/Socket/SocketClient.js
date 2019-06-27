@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import config from '../../socket_config';
 const host = config.host;
 const socketPath = '';
-export default class socketAPI {
+class socketAPI {
   connect() {
     this.socket = io.connect(host, { path: socketPath });
     return new Promise((resolve, reject) => {
@@ -58,3 +58,7 @@ export default class socketAPI {
     }).catch(error => console.log(`No socket connection: ${error}`));
   }
 }
+
+const socket = new socketAPI();
+socket.connect();
+export default socket;

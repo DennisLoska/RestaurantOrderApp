@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
+// import TableMenu from './components/TableMenu';
+import Tables from './components/Tables';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Navbar from './components/Navbar';
@@ -11,35 +13,8 @@ import OrderHistory from './components/OrderHistory';
 import LiveOrder from './components/LiveOrder';
 import './App.css';
 
-//initializing the socket connection
-import SocketClient from './components/Socket/SocketClient';
-const socket = new SocketClient();
-socket.connect();
-
-const Menu = () => {
-  // TODO: Replace dummy data
-  const menus = [];
-  for (let index = 0; index < 5; index++) {
-    menus.push({
-      label: `Category ${index}`,
-      menu: [
-        {
-          id: index,
-          image: 'https://static.thenounproject.com/png/340719-200.png',
-          food: 'Lorem Ipsum',
-          price: `€ ${index}.00`
-        },
-        {
-          id: index + 1,
-          image: 'https://static.thenounproject.com/png/340719-200.png',
-          food: 'Lorem Ipsum',
-          price: `€ ${index}.00`
-        }
-      ]
-    });
-  }
-  return <MenuCard menu={menus} />;
-};
+//socket is the socket client available in every component via import
+import socket from './components/Socket/SocketClient';
 
 const History = () => {
   // TODO: Replace dummy data
@@ -69,6 +44,12 @@ const orders = [
   { id: 3, name: 'Maria', orders: [] }
 ];
 
+const TableCreator = () => {
+  const names = ['Affe', 'Löwe', 'Hund', 'Katze', 'Maus', 'Schlange'];
+  console.log(names);
+  return <Tables names={names} />;
+};
+
 class App extends Component {
   render() {
     return (
@@ -79,10 +60,11 @@ class App extends Component {
             <section id="menu">
               <Switch>
                 <Route path="/" exact component={SignIn} />
-                <Route path="/order" exact component={Menu} />
+                <Route path="/order" exact component={MenuCard} />
                 <Route path="/order/history" exact component={History} />
                 <Route path="/signin" exact component={SignIn} />
                 <Route path="/signup" exact component={SignUp} />
+                <Route path="/tables" exact component={TableCreator} />
               </Switch>
             </section>
             <LiveOrder users={orders} />

@@ -1,28 +1,19 @@
 import React from 'react';
 import './Tables.css';
 
+const Tables = props => {
+  return (
+    <React.Fragment>
+      <h2>An welchem Tisch sitzt du?</h2>
+      <div className="d-sm-flex flex-row justify-content-center align-content-stretch flex-wrap">
+        {props.names.map(name => (
+          <div key={name} className="tableSelection">
+            <p className="tableNames">{name}</p>
+          </div>
+        ))}
+      </div>
+    </React.Fragment>
+  );
+};
 
-    return (
-        <main>
-         <table id="simple-board">
-        <tbody>
-          <tr id="row0">
-            <td id="cell0-0"></td>
-            <td id="cell0-1"></td>
-            <td id="cell0-2"></td>
-          </tr>
-          <tr id="row1">
-            <td id="cell1-0"></td>
-            <td id="cell1-1"></td>
-            <td id="cell1-2"></td>
-          </tr>
-          <tr id="row2">
-            <td id="cell2-0"></td>
-            <td id="cell2-1"></td>
-            <td id="cell2-2"></td>
-          </tr>
-        </tbody>
-      </table>
-        </main>
-    );
-
+export default Tables;

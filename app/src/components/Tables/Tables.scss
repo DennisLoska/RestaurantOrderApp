@@ -1,0 +1,28 @@
+@import 'variables.scss';
+
+.tableSelection {
+  display: flex;
+  align-items: center;
+  height: calc(100vh / 4);
+  width: 30%;
+  background-color: $color-yellow;
+  border-radius: 10px;
+  justify-content: center;
+  margin: 30px;
+}
+
+.tableSelection:hover {
+  background-color: $color-green;
+}
+
+p.tableNames {
+  color: $color-green;
+  font-family: Lucida Bright;
+  font-size: 1.9em;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.tableSelection:hover > p {
+  color: white;
+}

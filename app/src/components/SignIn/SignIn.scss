@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .signin {
   width: 30%;
   margin: auto;
@@ -5,4 +7,13 @@
 
 h2 {
   text-align: center;
+}
+
+.nav-link {
+  font-weight: 600;
+  color: black;
+}
+
+.nav-link:hover {
+  color: $color-green;
 }
