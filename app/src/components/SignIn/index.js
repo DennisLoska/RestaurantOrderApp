@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import history from '../../history';
 import './SignIn.css';
-import SignUp from '../SignUp';
-import Navigation from './navigation';
+import Navigation from './Navigation';
 
 const SignIn = () => {
   const [state, setState] = useState({
@@ -42,7 +41,7 @@ const SignIn = () => {
       <Navigation />
       <form className="signin" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="userName">
+          <label>
             Username
             <input
               className="form-control"
@@ -54,7 +53,7 @@ const SignIn = () => {
           </label>
         </div>
         <div className="form-group">
-          <label htmlFor="password">
+          <label>
             Password
             <input
               className="form-control"
@@ -66,7 +65,7 @@ const SignIn = () => {
           </label>
         </div>
         <div>
-          <button type="submit" className="btn btn-primary" type="submit">
+          <button type="submit" className="btn btn-primary">
             Sign In
           </button>
         </div>

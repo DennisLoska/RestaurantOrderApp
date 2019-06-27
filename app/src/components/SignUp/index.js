@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './SignUp.css';
-import SignIn from '../SignIn';
 import history from '../../history';
-import Navigation from '../SignIn/navigation';
+import Navigation from '../SignIn/Navigation';
 
 const SignUp = () => {
   const [state, setState] = useState({
@@ -14,7 +13,6 @@ const SignUp = () => {
   });
 
   const handleChange = e => {
-    //console.log(e)
     setState({
       ...state,
       [e.target.name]: e.target.value
@@ -45,11 +43,11 @@ const SignUp = () => {
   };
 
   return (
-    <main>
+    <section>
       <Navigation />
       <form className="signup" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="firstName">
+          <label>
             First Name
             <input
               required
@@ -61,7 +59,7 @@ const SignUp = () => {
           </label>
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">
+          <label>
             Last Name
             <input
               required
@@ -73,7 +71,7 @@ const SignUp = () => {
           </label>
         </div>
         <div className="form-group">
-          <label htmlFor="userName">
+          <label>
             Username
             <input
               required
@@ -85,7 +83,7 @@ const SignUp = () => {
           </label>
         </div>
         <div className="form-group">
-          <label htmlFor="email">
+          <label>
             Email
             <input
               required
@@ -97,7 +95,7 @@ const SignUp = () => {
           </label>
         </div>
         <div className="form-group">
-          <label htmlFor="password">
+          <label>
             Password
             <input
               required
@@ -114,7 +112,7 @@ const SignUp = () => {
           </button>
         </div>
       </form>
-    </main>
+    </section>
   );
 };
 
