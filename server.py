@@ -83,7 +83,7 @@ def login():
         {'username': request.form['username']})
     if login_user:
         hashed_pw = bcrypt.hashpw(request.form['password'].encode(
-            'utf-8'), login_user['password'].encode('utf-8'))
+            'utf-8'), bytes(login_user['password']))
         if hashed_pw == login_user['password'].encode('utf-8'):
             session['username'] = request.form['username']
             session['logged_in'] = True
