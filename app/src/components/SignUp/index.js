@@ -43,7 +43,7 @@ const SignUp = () => {
   };
 
   return (
-    <section>
+    <section id="authentication">
       <Navigation />
       <form className="signup" onSubmit={handleSubmit}>
         <div className="form-group">

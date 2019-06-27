@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navigation = () => {
   return (
-    <div id="authentication">
+    <div>
       <div className="card text-center">
         <div className="card-body">
           <h5 className="card-title">
@@ -14,19 +14,13 @@ const Navigation = () => {
         </div>
       </div>
       <nav className="navbar navbar-expand-sm justify-content-center">
-        <ul className="navbar-nav  align-items-center">
-          <li className="nav-item  active">
-            <a className="nav-link" href="/SignIn">
-              Sign In
-            </a>
-          </li>
-          <li>|</li>
-          <li className="nav-item">
-            <a className="nav-link" href="/SignUp">
-              Sign Up
-            </a>
-          </li>
-        </ul>
+        <a className="nav-item nav-link" href="/SignIn">
+          Sign In
+        </a>
+        |
+        <a className="nav-item nav-link" href="/SignUp">
+          Sign Up
+        </a>
       </nav>
     </div>
   );

@@ -37,7 +37,7 @@ const SignIn = () => {
   };
 
   return (
-    <section>
+    <section id="authentication">
       <Navigation />
       <form className="signin" onSubmit={handleSubmit}>
         <div className="form-group">

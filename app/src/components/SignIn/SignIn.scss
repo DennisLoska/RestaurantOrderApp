@@ -1,12 +1,17 @@
 @import 'variables.scss';
-
-.signin {
-  width: 30%;
-  margin: auto;
-  color: #555;
-}
+@import 'bootstrap/scss/bootstrap-grid.scss';
 
 #authentication {
+  form {
+    width: 40%;
+    margin: auto;
+    color: #555;
+  }
+
+  label {
+    width: 100%;
+  }
+
   .nav-link {
     font-weight: 600;
     color: black;
@@ -17,20 +22,29 @@
   }
 
   .btn-primary {
+    display: block;
     background-color: $color-green;
     border-color: $color-green;
+    margin: auto;
+
+    &:hover {
+      background-color: $color-yellow;
+      border-color: $color-yellow;
+      color: $color-green;
+    }
   }
 
-  .btn-primary:hover {
-    background-color: $color-yellow;
-    border-color: $color-yellow;
-    color: $color-green;
-  }
   .card-body {
     color: #555;
   }
 
   .navbar {
     padding: 1rem 0rem;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  #authentication form {
+    width: 80%;
   }
 }
