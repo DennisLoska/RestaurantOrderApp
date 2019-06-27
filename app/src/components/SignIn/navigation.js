@@ -6,8 +6,8 @@ const Navigation = () => {
         <div>
             <div className="card text-center">
                 <div className="card-body">
-                    <h5 className="card-title">Herzlich willkommen zu unsere Restaurant!</h5>
-                    <p className="card-text">Sie können bei uns leckere vegane Gerichte finden.</p>
+                    <h5 className="card-title">Herzlich Willkommen in unserem Restaurant!</h5>
+                    <p className="card-text">Sie können bei uns leckere Gerichte finden.</p>
                     {/* <a href="#" className="btn btn-primary">Weiter</a> */}
                 </div>
 
