@@ -3,6 +3,7 @@
 .signin {
   width: 30%;
   margin: auto;
+  color: #555;
 }
 
 h2 {
@@ -16,4 +17,23 @@ h2 {
 
 .nav-link:hover {
   color: $color-green;
+}
+
+.btn-primary {
+  background-color: $color-green;
+  border-color: $color-green;
+}
+
+.btn-primary:hover {
+  background-color: $color-yellow;
+  border-color: $color-yellow;
+  color: $color-green;
+}
+.card-body {
+  color: #555;
+}
+
+.navbar {
+  padding-top: 30px;
+  padding-bottom: 50px;
 }
