@@ -46,7 +46,7 @@ def register():
     if request.method == 'POST':
         customers = db.customers
         existing_customer = customers.find_one(
-            {'name': request.form['username']})
+            {'username': request.form['username']})
         if existing_customer is None:
             hashed_pw = bcrypt.hashpw(
                 request.form['password'].encode('utf-8'), bcrypt.gensalt())
