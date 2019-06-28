@@ -23,7 +23,6 @@ const SignIn = () => {
     formData.append('username', state.userName);
     formData.append('password', state.password);
     fetch('http://localhost:5000/api/login', {
-      mode: 'no-cors',
       body: formData,
       method: 'post'
     })

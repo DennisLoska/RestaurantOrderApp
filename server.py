@@ -34,10 +34,7 @@ def serve():
     return Response(
         json.dumps(notes),
         mimetype='application/json',
-        headers={
-            'Cache-Control': 'no-cache',
-            'Access-Control-Allow-Origin': '*'
-        }
+
     )
 
 
@@ -61,19 +58,13 @@ def register():
                 json.dumps({'logged_in': True,
                             'user': session['username']}),
                 mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            )
         else:
             return Response(
                 json.dumps({'logged_in': False,
                             'error': 'Same username already exists!'}),
                 mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            )
 
 
 @app.route('/api/login', methods=['POST'])
@@ -84,25 +75,46 @@ def login():
     if login_user:
         hashed_pw = bcrypt.hashpw(request.form['password'].encode(
             'utf-8'), bytes(login_user['password']))
-        if hashed_pw == login_user['password'].encode('utf-8'):
+        if hashed_pw == login_user['password']:
             session['username'] = request.form['username']
             session['logged_in'] = True
             return Response(
                 json.dumps({'logged_in': True,
                             'user': session['username']}),
                 mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            )
     return Response(
         json.dumps({'logged_in': False,
                     'error': 'Wrong username or password!'}),
         mimetype='application/json',
-        headers={
-            'Cache-Control': 'no-cache',
-            'Access-Control-Allow-Origin': '*'
-        })
+    )
+
+
+@app.route('/api/authStatus', methods=['GET'])
+def getStatus():
+    users = db.customers
+    username = session.get('username')
+    if username:
+        existing_user = users.find_one(
+            {'username': username})
+        if existing_user:
+            return Response(
+                json.dumps({'logged_in': True,
+                            'user': username}),
+                mimetype='application/json',
+            )
+        else:
+            return Response(
+                json.dumps(
+                    {'logged_in': False, 'error': 'Session exists, but user does not exist anymore.'}),
+                mimetype='application/json',
+            )
+    else:
+        return Response(
+            json.dumps({'logged_in': False,
+                        'error': 'Wrong username or password!'}),
+            mimetype='application/json',
+        )
 
 
 @app.route('/api/logout')
@@ -120,18 +132,12 @@ def getOrders():
         return Response(
             json.dumps({'orders': user_orders}),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
     else:
         return Response(
             json.dumps({'error': 'No orders found!'}),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
 
 
 @app.route('/api/items', methods=['GET'])
@@ -142,18 +148,12 @@ def getItems():
         return Response(
             json.dumps(restaurant_items, default=json_util.default),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
     else:
         return Response(
             json.dumps({'error': 'No items found!'}),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
 
 
 # Routing - we do not use the Flask server for routing in our application

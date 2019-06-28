@@ -29,7 +29,6 @@ const SignUp = () => {
     formData.append('email', state.email);
     formData.append('password', state.password);
     fetch('http://localhost:5000/api/register', {
-      mode: 'no-cors',
       body: formData,
       method: 'post'
     })

@@ -34,7 +34,9 @@ const MenuCard = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/items')
+    fetch('http://localhost:5000/api/items', {
+      method: 'get'
+    })
       .then(response => response.json())
       .catch(err => console.log(err))
       .then(items => {

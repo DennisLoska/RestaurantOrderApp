@@ -50,6 +50,33 @@ const TableCreator = () => {
 };
 
 class App extends Component {
+  state = {
+    isLoggedIn: false
+  };
+
+  componentDidMount() {
+    fetch('http://localhost:5000/api/authStatus', {
+      method: 'get'
+    })
+      .then(response => response.json())
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoggedIn: false });
+        history.push('/');
+      })
+      .then(data => {
+        this.setState({ isLoggedIn: data.logged_in });
+        if (data.logged_in) {
+          history.push('order');
+        } else history.push('/');
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoggedIn: false });
+        history.push('/');
+      });
+  }
+
   render() {
     return (
       <div id="layout" className="container">
@@ -66,7 +93,7 @@ class App extends Component {
                 <Route path="/tables" exact component={TableCreator} />
               </Switch>
             </section>
-            <LiveOrder users={orders} />
+            {this.state.isLoggedIn && <LiveOrder users={orders} />}
           </main>
           <Footer />
         </Router>
