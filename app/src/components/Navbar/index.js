@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import './Navbar.css';
 import menu from '../../logo.svg';
+import history from '../../history';
 
 /**
  * Creates navigation from links
@@ -28,6 +29,13 @@ const Navbar = withRouter(props => {
   const selectMenu = path => {
     setCollapsed(true);
     setPathName(path);
+  };
+
+  const handleLogout = () => {
+    fetch('http://localhost:5000/api/logout').then(response => {
+      props.updateIsLoggedIn(false);
+      history.push('/');
+    });
   };
 
   return (
@@ -63,6 +71,17 @@ const Navbar = withRouter(props => {
             </li>
           );
         })}
+        {props.isLoggedIn && (
+          <li>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );

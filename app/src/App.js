@@ -77,19 +77,56 @@ class App extends Component {
       });
   }
 
+  updateIsLoggedIn = status => {
+    console.log('test');
+    this.setState({ isLoggedIn: status });
+  };
+
   render() {
+    console.log(this.state.isLoggedIn);
     return (
       <div id="layout" className="container">
         <Router history={history}>
-          <Navbar links={links} />
+          <Navbar
+            links={links}
+            isLoggedIn={this.state.isLoggedIn}
+            updateIsLoggedIn={this.updateIsLoggedIn}
+          />
           <main>
             <section id="menu">
               <Switch>
-                <Route path="/" exact component={SignIn} />
+                <Route
+                  path="/"
+                  exact
+                  render={props => (
+                    <SignIn
+                      {...props}
+                      updateIsLoggedIn={this.updateIsLoggedIn}
+                    />
+                  )}
+                />
                 <Route path="/order" exact component={MenuCard} />
                 <Route path="/order/history" exact component={History} />
-                <Route path="/signin" exact component={SignIn} />
-                <Route path="/signup" exact component={SignUp} />
+                <Route
+                  path="/signin"
+                  exact
+                  render={props => (
+                    <SignIn
+                      {...props}
+                      updateIsLoggedIn={this.updateIsLoggedIn}
+                    />
+                  )}
+                />
+                <Route
+                  path="/signup"
+                  exact
+                  render={props => (
+                    <SignUp
+                      {...props}
+                      updateIsLoggedIn={this.updateIsLoggedIn}
+                    />
+                  )}
+                />
                 <Route path="/tables" exact component={TableCreator} />
               </Switch>
             </section>

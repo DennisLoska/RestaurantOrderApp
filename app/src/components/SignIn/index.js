@@ -3,7 +3,8 @@ import history from '../../history';
 import './SignIn.css';
 import Navigation from './Navigation';
 
-const SignIn = () => {
+const SignIn = props => {
+  console.log(props);
   const [state, setState] = useState({
     userName: '',
     password: ''
@@ -29,8 +30,10 @@ const SignIn = () => {
       .then(response => response.json())
       .catch(err => console.log(err))
       .then(data => {
-        if (data.logged_in) history.push('order');
-        else alert(data.error);
+        if (data.logged_in) {
+          props.updateIsLoggedIn(true);
+          history.push('order');
+        } else alert(data.error);
       })
       .catch(err => console.log(err));
   };
