@@ -75,7 +75,7 @@ const Navbar = withRouter(props => {
           <li>
             <button
               type="button"
-              class="btn btn-outline-dark"
+              className="btn btn-outline-dark"
               onClick={handleLogout}
             >
               Logout

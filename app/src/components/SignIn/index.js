@@ -4,7 +4,6 @@ import './SignIn.css';
 import Navigation from './Navigation';
 
 const SignIn = props => {
-  console.log(props);
   const [state, setState] = useState({
     userName: '',
     password: ''
@@ -19,7 +18,6 @@ const SignIn = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(state);
     let formData = new FormData();
     formData.append('username', state.userName);
     formData.append('password', state.password);
