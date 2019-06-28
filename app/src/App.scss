@@ -13,6 +13,11 @@ main {
   flex-direction: row;
   flex-grow: 1;
   margin: 1rem 0rem;
+
+  > section {
+    margin: 0.25rem;
+    flex-grow: 1;
+  }
 }
 
 .header {
@@ -26,7 +31,6 @@ main {
 
 #menu {
   flex-basis: calc(100% * 2 / 3);
-  padding-right: 1rem;
 
   .header {
     display: none;
@@ -37,25 +41,20 @@ main {
   main {
     margin: 0.5rem 0rem;
     flex-direction: column-reverse;
+
+    section {
+      margin: 0px;
+    }
   }
 
   .header {
     padding: 0.4rem 0.75rem;
   }
 
-  #live-area,
-  #menu {
-    margin: 0px;
-  }
-
-  #menu {
-    padding: 0px;
-
-    .header {
-      display: block;
-      background-color: $color-green;
-      color: white;
-    }
+  #menu .header {
+    display: block;
+    background-color: $color-green;
+    color: white;
   }
 
   #root > .container {

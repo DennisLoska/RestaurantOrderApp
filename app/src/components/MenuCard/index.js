@@ -61,7 +61,7 @@ const MenuCard = () => {
 
 const MenuCategory = props => {
   return (
-    <div className="d-sm-flex flex-sm-column">
+    <div id="menu-card" className="d-sm-flex flex-sm-column">
       {props.menu.map(category => {
         const { _id, name, description, price, img_url } = category;
         return (
@@ -81,7 +81,7 @@ const MenuCategory = props => {
 const MenuNavigation = props => {
   const { labels, activeLabel, onClick } = props;
   return (
-    <nav id="menu-card" className="navbar navbar-expand-sm">
+    <nav id="menu-card-nav" className="navbar navbar-expand-sm">
       <ul className="navbar-nav">
         {labels.map(label => {
           const handleOnClick = () => {
@@ -118,7 +118,7 @@ const MenuItem = props => {
   const { image, name, price, description } = props;
   return (
     <div className="card d-sm-flex flex-sm-row flex-grow-1 mb-2">
-      <img className="card-img-left" src={image} alt={name} />
+      <img className="card-img-left p-2" src={image} alt={name} />
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
         <p className="card-text">{description}</p>

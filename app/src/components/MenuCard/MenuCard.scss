@@ -1,18 +1,30 @@
 @import 'variables.scss';
+@import 'bootstrap/scss/bootstrap-grid.scss';
 
-#menu-card > .navbar-nav {
+#menu-card-nav > .navbar-nav {
   flex-wrap: wrap;
   white-space: nowrap;
+
+  .nav-item.nav-link.active {
+    color: $color-green;
+  }
 }
 
-.card-img-left {
-  min-height: 5rem;
-  min-width: 5rem;
-  max-width: 16rem;
-  max-height: 9rem;
+#menu-card .card-img-left {
+  flex-shrink: 0;
+  min-height: 6rem;
+  min-width: 6rem;
+  width: 25%;
+  height: auto;
+  max-height: 95%;
   margin: auto;
+  object-fit: cover;
 }
 
-.nav-item.nav-link.active {
-  color: $color-green;
+@include media-breakpoint-down(xs) {
+  #menu-card .card-img-left {
+    width: 45%;
+    max-width: 95%;
+    max-height: 45%;
+  }
 }
