@@ -68,7 +68,7 @@ class App extends Component {
         this.setState({ isLoggedIn: data.logged_in });
         if (data.logged_in) {
           history.push('order');
-        } else history.push('/');
+        }
       })
       .catch(err => {
         console.log(err);
