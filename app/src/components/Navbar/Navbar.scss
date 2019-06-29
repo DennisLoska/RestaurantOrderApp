@@ -6,8 +6,13 @@
     color: $color-yellow;
   }
 
+  .nav-link {
+    color: $text-color;
+  }
+
   .nav-item.active > .nav-link {
     color: $color-green;
+    font-weight: 600;
   }
 
   > .navbar-nav.collapsed {
@@ -48,14 +53,10 @@
       }
 
       > .nav-item {
-        border-top: 1px solid $color-dark-gray;
+        border-top: 1px solid $color-light-gray;
 
         &:last-child {
-          border-bottom: 1px solid $color-dark-gray;
-        }
-
-        > .nav-link {
-          font-weight: 400;
+          border-bottom: 1px solid $color-light-gray;
         }
       }
     }
