@@ -5,9 +5,13 @@
   flex-wrap: wrap;
   white-space: nowrap;
 
-  .nav-item.nav-link.active {
-    color: $color-green;
-    font-weight: 600;
+  .nav-item.nav-link {
+    cursor: pointer;
+
+    &.active {
+      color: $color-green;
+      font-weight: 600;
+    }
   }
 }
 
