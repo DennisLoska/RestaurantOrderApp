@@ -5,13 +5,13 @@
   flex-wrap: wrap;
   white-space: nowrap;
 
-  .nav-item.nav-link {
-    cursor: pointer;
+  .nav-link {
+    color: $text-color;
+  }
 
-    &.active {
-      color: $color-green;
-      font-weight: 600;
-    }
+  .nav-item.active > .nav-link {
+    color: $color-green;
+    font-weight: 600;
   }
 }
 
@@ -31,5 +31,37 @@
     width: 45%;
     max-width: 95%;
     max-height: 45%;
+  }
+
+  #menu-card-nav {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .navbar-toggler {
+      outline: none;
+      padding: 0px;
+    }
+
+    .navbar-nav {
+      flex-wrap: nowrap;
+      max-height: 100vh;
+      transition: max-height 0.2s ease-in-out;
+
+      &.collapsed {
+        max-height: 0vh;
+      }
+    }
+
+    .navbar-toggler-icon {
+      color: $color-green;
+      transition: transform 0.2s ease-in-out;
+      transform: rotate(90deg);
+      font-weight: 600;
+
+      &.collapsed {
+        transform: none;
+      }
+    }
   }
 }

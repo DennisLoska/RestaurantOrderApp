@@ -55,29 +55,26 @@ const App = () => {
   const [state, setState] = useState({ isLoggedIn: false });
 
   useEffect(() => {
-    async function fetchData() {
-      await fetch('http://localhost:5000/api/authStatus', {
-        method: 'get'
+    fetch('http://localhost:5000/api/authStatus', {
+      method: 'get'
+    })
+      .then(response => response.json())
+      .catch(err => {
+        console.log(err);
+        setState({ ...state, isLoggedIn: false });
+        history.push('/');
       })
-        .then(response => response.json())
-        .catch(err => {
-          console.log(err);
-          setState({ ...state, isLoggedIn: false });
-          history.push('/');
-        })
-        .then(data => {
-          setState({ ...state, isLoggedIn: data.logged_in });
-          if (data.logged_in) {
-            history.push('order');
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          setState({ ...state, isLoggedIn: false });
-          history.push('/');
-        });
-    }
-    fetchData();
+      .then(data => {
+        setState({ ...state, isLoggedIn: data.logged_in });
+        if (data.logged_in) {
+          history.push('order');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setState({ ...state, isLoggedIn: false });
+        history.push('/');
+      });
   }, [state.isLoggedIn]);
 
   return (

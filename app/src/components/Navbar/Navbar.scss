@@ -47,9 +47,13 @@
       grid-area: links;
       padding: 1.5rem 1rem;
       flex-direction: column;
+      max-height: 100vh;
+      transition: max-height 0.3s ease-in-out;
+      overflow: hidden;
 
       &.collapsed {
-        display: none;
+        padding: 0rem 1rem;
+        max-height: 0vh;
       }
 
       > .nav-item {

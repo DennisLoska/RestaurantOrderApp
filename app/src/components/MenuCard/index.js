@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './MenuCard.css';
 
 /**
@@ -80,25 +81,45 @@ const MenuCategory = props => {
 
 const MenuNavigation = props => {
   const { labels, activeLabel, onClick } = props;
+  const [collapsed, setCollapsed] = useState(true);
+
+  const toggleMenu = () => {
+    setCollapsed(!collapsed);
+  };
+
   return (
     <nav id="menu-card-nav" className="navbar navbar-expand-sm">
-      <ul className="navbar-nav">
+      <button
+        className="navbar-toggler"
+        type="button"
+        aria-expanded={!collapsed}
+        aria-label="Toggle Menu Category"
+        onClick={toggleMenu}
+      >
+        <span
+          className={
+            collapsed ? 'navbar-toggler-icon collapsed' : 'navbar-toggler-icon'
+          }
+        >
+          >
+        </span>
+        {activeLabel}
+      </button>
+      <ul className={collapsed ? 'navbar-nav collapsed' : 'navbar-nav'}>
         {labels.map(label => {
           const handleOnClick = () => {
             onClick(label);
+            setCollapsed(true);
           };
 
           return (
             <li
               key={label}
-              className={
-                activeLabel === label
-                  ? 'nav-item nav-link active'
-                  : 'nav-item nav-link'
-              }
-              onClick={handleOnClick}
+              className={activeLabel === label ? 'nav-item active' : 'nav-item'}
             >
-              {label}
+              <Link className="nav-link" to="#" onClick={handleOnClick}>
+                {label}
+              </Link>
             </li>
           );
         })}
