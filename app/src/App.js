@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
@@ -49,94 +49,60 @@ const TableCreator = () => {
   return <Tables names={names} />;
 };
 
-class App extends Component {
-  state = {
-    isLoggedIn: false
-  };
+export const AppContext = React.createContext([{}, () => {}]);
 
-  componentDidMount() {
-    fetch('http://localhost:5000/api/authStatus', {
-      method: 'get'
-    })
-      .then(response => response.json())
-      .catch(err => {
-        console.log(err);
-        this.setState({ isLoggedIn: false });
-        history.push('/');
+const App = () => {
+  const [state, setState] = useState({ isLoggedIn: false });
+
+  useEffect(() => {
+    async function fetchData() {
+      await fetch('http://localhost:5000/api/authStatus', {
+        method: 'get'
       })
-      .then(data => {
-        this.setState({ isLoggedIn: data.logged_in });
-        if (data.logged_in) {
-          history.push('order');
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ isLoggedIn: false });
-        history.push('/');
-      });
-  }
+        .then(response => response.json())
+        .catch(err => {
+          console.log(err);
+          setState({ ...state, isLoggedIn: false });
+          history.push('/');
+        })
+        .then(data => {
+          setState({ ...state, isLoggedIn: data.logged_in });
+          if (data.logged_in) {
+            history.push('order');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setState({ ...state, isLoggedIn: false });
+          history.push('/');
+        });
+    }
+    fetchData();
+  }, [state.isLoggedIn]);
 
-  updateIsLoggedIn = status => {
-    console.log('test');
-    this.setState({ isLoggedIn: status });
-  };
-
-  render() {
-    console.log(this.state.isLoggedIn);
-    return (
+  return (
+    <AppContext.Provider value={[state, setState]}>
       <div id="layout" className="container">
         <Router history={history}>
-          <Navbar
-            links={links}
-            isLoggedIn={this.state.isLoggedIn}
-            updateIsLoggedIn={this.updateIsLoggedIn}
-          />
+          <Navbar links={links} />
           <main>
             <section id="menu">
               <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={props => (
-                    <SignIn
-                      {...props}
-                      updateIsLoggedIn={this.updateIsLoggedIn}
-                    />
-                  )}
-                />
+                <Route path="/" exact component={SignIn} />
                 <Route path="/order" exact component={MenuCard} />
                 <Route path="/order/history" exact component={History} />
-                <Route
-                  path="/signin"
-                  exact
-                  render={props => (
-                    <SignIn
-                      {...props}
-                      updateIsLoggedIn={this.updateIsLoggedIn}
-                    />
-                  )}
-                />
-                <Route
-                  path="/signup"
-                  exact
-                  render={props => (
-                    <SignUp
-                      {...props}
-                      updateIsLoggedIn={this.updateIsLoggedIn}
-                    />
-                  )}
-                />
+                <Route path="/signin" exact component={SignIn} />
+                <Route path="/signup" exact component={SignUp} />
                 <Route path="/tables" exact component={TableCreator} />
               </Switch>
             </section>
-            {this.state.isLoggedIn && <LiveOrder users={orders} />}
+            {state.isLoggedIn && <LiveOrder users={orders} />}
           </main>
           <Footer />
         </Router>
       </div>
-    );
-  }
-}
+    </AppContext.Provider>
+  );
+};
 
 export default App;

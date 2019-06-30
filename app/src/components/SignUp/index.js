@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './SignUp.css';
 import history from '../../history';
 import Navigation from '../SignIn/Navigation';
+import { AppContext } from '../../App';
 
-const SignUp = props => {
-  const [state, setState] = useState({
+const SignUp = () => {
+  const [form, setForm] = useState({
     email: '',
     password: '',
     firstName: '',
@@ -12,22 +13,25 @@ const SignUp = props => {
     lastName: ''
   });
 
+  const [state, setState] = useContext(AppContext);
+
   const handleChange = e => {
-    setState({
-      ...state,
+    setForm({
+      ...form,
       [e.target.name]: e.target.value
     });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(state);
+    console.log(form);
     let formData = new FormData();
-    formData.append('firstname', state.firstName);
-    formData.append('lastname', state.lastName);
-    formData.append('username', state.userName);
-    formData.append('email', state.email);
-    formData.append('password', state.password);
+    formData.append('firstname', form.firstName);
+    formData.append('lastname', form.lastName);
+    formData.append('username', form.userName);
+    formData.append('email', form.email);
+    formData.append('password', form.password);
+
     fetch('http://localhost:5000/api/register', {
       body: formData,
       method: 'post'
@@ -36,7 +40,7 @@ const SignUp = props => {
       .catch(err => console.log(err))
       .then(data => {
         if (data.logged_in) {
-          props.updateIsLoggedIn(true);
+          setState({...state, isLoggedIn: true});
           history.push('order');
         } else alert(data.error);
       })

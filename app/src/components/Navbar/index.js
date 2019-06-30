@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import './Navbar.css';
 import menu from '../../logo.svg';
 import history from '../../history';
+import { AppContext } from '../../App';
 
 /**
  * Creates navigation from links
@@ -14,6 +15,8 @@ import history from '../../history';
  */
 const Navbar = withRouter(props => {
   const { location, links } = props;
+  const [state, setState] = useContext(AppContext);
+
   const [pathName, setPathName] = useState(location.pathname);
   const [collapsed, setCollapsed] = useState(true);
 
@@ -32,8 +35,8 @@ const Navbar = withRouter(props => {
   };
 
   const handleLogout = () => {
-    fetch('http://localhost:5000/api/logout').then(response => {
-      props.updateIsLoggedIn(false);
+    fetch('http://localhost:5000/api/logout').then(_response => {
+      setState({...state, isLoggedIn: false});
       history.push('/');
     });
   };
@@ -71,7 +74,7 @@ const Navbar = withRouter(props => {
             </li>
           );
         })}
-        {props.isLoggedIn && (
+        {state.isLoggedIn && (
           <li>
             <button
               type="button"

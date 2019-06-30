@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import history from '../../history';
 import './SignIn.css';
 import Navigation from './Navigation';
+import { AppContext } from '../../App';
 
-const SignIn = props => {
-  const [state, setState] = useState({
+const SignIn = () => {
+  const [form, setForm] = useState({
     userName: '',
     password: ''
   });
 
+  const [state, setState] = useContext(AppContext);
+
   const handleChange = e => {
-    setState({
-      ...state,
+    setForm({
+      ...form,
       [e.target.name]: e.target.value
     });
   };
@@ -19,8 +22,9 @@ const SignIn = props => {
   const handleSubmit = e => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('username', state.userName);
-    formData.append('password', state.password);
+    formData.append('username', form.userName);
+    formData.append('password', form.password);
+
     fetch('http://localhost:5000/api/login', {
       body: formData,
       method: 'post'
@@ -29,7 +33,7 @@ const SignIn = props => {
       .catch(err => console.log(err))
       .then(data => {
         if (data.logged_in) {
-          props.updateIsLoggedIn(true);
+          setState({ ...state, isLoggedIn: true });
           history.push('order');
         } else alert(data.error);
       })
