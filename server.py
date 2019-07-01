@@ -1,21 +1,20 @@
 import json
+import bcrypt
 import pymongo
 from bson import json_util
-import bcrypt
-from flask import Flask, request, Response, jsonify, render_template, session
+from collections import namedtuple
 from flask_socketio import SocketIO, emit
+from flask import Flask, request, Response, jsonify, render_template, session
 
 client = pymongo.MongoClient(
     "mongodb://admin:CXuK1qvc7C6V8Av4XPyI@codefree-shard-00-00-2k3ax.mongodb.net:27017,codefree-shard-00-01-2k3ax.mongodb.net:27017,codefree-shard-00-02-2k3ax.mongodb.net:27017/test?ssl=true&replicaSet=codefree-shard-0&authSource=admin&retryWrites=true")
 db = client["restaurant"]
-customers = db.customers
-orders = db.orders
-items = db.items
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 app.secret_key = 'session_secret'
 socketio = SocketIO(app)
+table_order = list()
 
 notes = {
     0: 'Frontend is using React',
@@ -195,6 +194,18 @@ def test_connect():
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
+
+
+@socketio.on('item-selected')
+def broadcastSelection(data, methods=['GET', 'POST']):
+    if data is not None:
+        selection = json.loads(data)
+        for order in table_order:
+            if order['user'] == selection['user']:
+                table_order.remove(order)
+        table_order.append(selection)
+        response = json.dumps(table_order, default=json_util.default)
+        socketio.emit('order-broadcast', response, broadcast=True)
 
 
 # https://stackoverflow.com/questions/53522052/flask-app-valueerror-signal-only-works-in-main-thread
