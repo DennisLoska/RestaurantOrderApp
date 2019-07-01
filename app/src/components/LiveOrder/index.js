@@ -4,7 +4,7 @@ import { AppContext } from '../../App';
 
 import './LiveOrder.css';
 
-const LiveOrder = props => {
+const LiveOrder = () => {
   const [state, setState] = useContext(AppContext);
 
   useEffect(() => {

@@ -26,20 +26,6 @@ const links = [
   { label: 'Bestellverlauf', path: '/order/history' }
 ];
 
-const orders = [
-  // TODO: Replace dummy data
-  {
-    id: 1,
-    name: 'Tom',
-    orders: [
-      { id: 1, count: 1, name: 'Salat mit Lachsspießen' },
-      { id: 2, count: 1, name: 'Match Latte' }
-    ]
-  },
-  { id: 2, name: 'Lisa', orders: [] },
-  { id: 3, name: 'Maria', orders: [] }
-];
-
 const TableCreator = () => {
   const names = ['Affe', 'Löwe', 'Hund', 'Katze', 'Maus', 'Schlange'];
   console.log(names);
@@ -90,7 +76,7 @@ const App = () => {
                 <Route path="/tables" exact component={TableCreator} />
               </Switch>
             </section>
-            {state.isLoggedIn && <LiveOrder users={orders} />}
+            {state.isLoggedIn && <LiveOrder />}
           </main>
           <Footer />
         </Router>
