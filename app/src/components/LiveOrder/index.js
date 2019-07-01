@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import socket from '../Socket/SocketClient';
+import { AppContext } from '../../App';
+
 import './LiveOrder.css';
 
 const LiveOrder = props => {
+  const [state, setState] = useContext(AppContext);
+
+  useEffect(() => {
+    if (state.isLoggedIn) {
+      socket.connect();
+      socket.off('order-broadcast');
+      const data = JSON.stringify(state.userSelection);
+      socket.emit('item-selected', data);
+      socket.on('order-broadcast', order => {
+        let updatedOrder = JSON.parse(order);
+        setState({ ...state, updatedOrder });
+        console.log('order', updatedOrder);
+      });
+    }
+    return () => socket.disconnect();
+  }, [state.userSelection]);
+
   return (
     <section id="live-area">
       <h5 className="header">Bestellung</h5>
-      {props.users.map(user => (
-        <div key={user.id}>
-          <strong>{user.name}:</strong>
-          <div className="order-grid">
-            {user.orders.map(order => (
-              <OrderItem
-                key={order.id}
-                itemCount={order.count}
-                name={order.name}
-              />
-            ))}
-          </div>
-        </div>
-      ))}
+      {state.updatedOrder
+        ? state.updatedOrder.map(order => (
+            <div key={order.user}>
+              <strong>{order.user}:</strong>
+              <div className="order-grid">
+                {order.items.map(item => (
+                  <OrderItem
+                    key={item.name}
+                    itemCount={null}
+                    name={item.name}
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+        : null}
       <button id="order-now" name="order-now" type="button" className="btn">
         Jetzt bestellen
       </button>
@@ -45,7 +67,7 @@ const OrderItem = props => {
       <span className="order-count rounded square">{count}x</span>
       <span>{name}</span>
       <div className="orderButton d-flex flex-row">
-      <button
+        <button
           name="add"
           type="button"
           className="btn btn-sm mr-2 square"
