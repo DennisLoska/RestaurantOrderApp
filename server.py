@@ -156,6 +156,22 @@ def getItems():
         )
 
 
+@app.route('/api/categories', methods=['GET'])
+def getCategories():
+    categories = db.categories
+    all_categories = list(categories.find())
+    if all_categories:
+        return Response(
+            json.dumps(all_categories, default=json_util.default),
+            mimetype='application/json',
+        )
+    else:
+        return Response(
+            json.dumps({'error': 'No categories found!'}),
+            mimetype='application/json',
+        )
+
+
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
 # access the route e.g. /test instead of routing to a specific file/template
