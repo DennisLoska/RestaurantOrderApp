@@ -25,11 +25,11 @@ const LiveOrder = () => {
   return (
     <section id="live-area">
       <h5 className="header">Bestellung</h5>
-      {state.updatedOrder
-        ? state.updatedOrder.map(order => (
-            <div key={order.user}>
-              <strong>{order.user}:</strong>
-              <div className="order-grid">
+      <div>
+        <strong>{state.user}:</strong>
+        {state.updatedOrder
+          ? state.updatedOrder.map(order => (
+              <div key={state.user} className="order-grid">
                 {order.items.map(item => (
                   <OrderItem
                     key={item.name}
@@ -38,9 +38,9 @@ const LiveOrder = () => {
                   />
                 ))}
               </div>
-            </div>
-          ))
-        : null}
+            ))
+          : null}
+      </div>
       <button id="order-now" name="order-now" type="button" className="btn">
         Jetzt bestellen
       </button>
