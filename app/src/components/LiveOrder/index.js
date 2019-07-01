@@ -8,6 +8,16 @@ const LiveOrder = () => {
   const [state, setState] = useContext(AppContext);
 
   useEffect(() => {
+    fetch('http://localhost:5000/api/tableorder', {
+      method: 'get'
+    })
+      .then(response => response.json())
+      .catch(err => console.log(err))
+      .then(tableOrder => setState({ ...state, tableOrder }))
+      .catch(err => console.log(err));
+  }, [!state.tableOrder]);
+
+  useEffect(() => {
     if (state.isLoggedIn) {
       socket.connect();
       socket.off('order-broadcast');
@@ -15,7 +25,7 @@ const LiveOrder = () => {
       socket.emit('item-selected', data);
       socket.on('order-broadcast', order => {
         let updatedOrder = JSON.parse(order);
-        setState({ ...state, updatedOrder });
+        setState({ ...state, tableOrder: updatedOrder });
         console.log('order', updatedOrder);
       });
     }
@@ -27,8 +37,8 @@ const LiveOrder = () => {
       <h5 className="header">Bestellung</h5>
       <div>
         <strong>{state.user}:</strong>
-        {state.updatedOrder
-          ? state.updatedOrder.map(order => (
+        {state.tableOrder
+          ? state.tableOrder.map(order => (
               <div key={state.user} className="order-grid">
                 {order.items.map(item => (
                   <OrderItem

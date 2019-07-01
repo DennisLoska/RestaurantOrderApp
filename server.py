@@ -171,6 +171,20 @@ def getCategories():
         )
 
 
+@app.route('/api/tableorder', methods=['GET'])
+def getTableOrder():
+    if table_order:
+        return Response(
+            json.dumps(table_order, default=json_util.default),
+            mimetype='application/json',
+        )
+    else:
+        return Response(
+            json.dumps({'error': 'No items selected!'}),
+            mimetype='application/json',
+        )
+
+
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
 # access the route e.g. /test instead of routing to a specific file/template
