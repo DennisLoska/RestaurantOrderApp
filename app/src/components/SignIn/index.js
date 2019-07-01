@@ -33,7 +33,7 @@ const SignIn = () => {
       .catch(err => console.log(err))
       .then(data => {
         if (data.logged_in) {
-          setState({ ...state, isLoggedIn: true });
+          setState({ ...state, isLoggedIn: true, user: data.user });
           history.push('order');
         } else alert(data.error);
       })

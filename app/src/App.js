@@ -12,9 +12,6 @@ import OrderHistory from './components/OrderHistory';
 import LiveOrder from './components/LiveOrder';
 import './App.css';
 
-//socket is the socket client available in every component via import
-import socket from './components/Socket/SocketClient';
-
 const History = () => {
   // TODO: Replace dummy data
   const history = [];
@@ -65,7 +62,7 @@ const App = () => {
         history.push('/');
       })
       .then(data => {
-        setState({ ...state, isLoggedIn: data.logged_in });
+        setState({ ...state, isLoggedIn: data.logged_in, user: data.user });
         if (data.logged_in) {
           history.push('order');
         }

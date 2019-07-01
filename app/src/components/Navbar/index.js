@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import './Navbar.css';
 import menu from '../../logo.svg';
 import history from '../../history';
+import socket from '../Socket/SocketClient';
 import { AppContext } from '../../App';
 
 /**
@@ -35,8 +36,9 @@ const Navbar = withRouter(props => {
   };
 
   const handleLogout = () => {
+    socket.disconnect();
     fetch('http://localhost:5000/api/logout').then(_response => {
-      setState({...state, isLoggedIn: false});
+      setState({ ...state, isLoggedIn: false });
       history.push('/');
     });
   };
@@ -63,16 +65,28 @@ const Navbar = withRouter(props => {
           const handleOnClick = () => {
             selectMenu(path);
           };
-          return (
-            <li
-              key={label}
-              className={pathName === path ? 'nav-item active' : 'nav-item'}
-            >
-              <Link className="nav-link" to={path} onClick={handleOnClick}>
-                {label}
-              </Link>
-            </li>
-          );
+          if (label === 'Bestellverlauf') {
+            return state.isLoggedIn ? (
+              <li
+                key={label}
+                className={pathName === path ? 'nav-item active' : 'nav-item'}
+              >
+                <Link className="nav-link" to={path} onClick={handleOnClick}>
+                  {label}
+                </Link>
+              </li>
+            ) : null;
+          } else
+            return (
+              <li
+                key={label}
+                className={pathName === path ? 'nav-item active' : 'nav-item'}
+              >
+                <Link className="nav-link" to={path} onClick={handleOnClick}>
+                  {label}
+                </Link>
+              </li>
+            );
         })}
         {state.isLoggedIn && (
           <li>
