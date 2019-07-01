@@ -15,15 +15,25 @@
   }
 }
 
-#menu-card .card-img-left {
-  flex-shrink: 0;
-  min-height: 6rem;
-  min-width: 6rem;
-  width: 25%;
-  height: auto;
-  max-height: 95%;
-  margin: auto;
-  object-fit: cover;
+#menu-card {
+  .card-img-left {
+    flex-shrink: 0;
+    min-height: 6rem;
+    min-width: 6rem;
+    width: 25%;
+    height: auto;
+    max-height: 95%;
+    margin: auto;
+    object-fit: cover;
+  }
+
+  .card {
+    .btn {
+      background-color: #19a395;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
 }
 
 @include media-breakpoint-down(xs) {

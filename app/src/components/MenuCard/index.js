@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppContext } from '../../App';
 import { Link } from 'react-router-dom';
 import './MenuCard.css';
 
@@ -39,6 +40,7 @@ const MenuCard = () => {
           });
           subMenu.set(category.name, elements);
         }
+        return null;
       });
     });
     console.log('menu:', subMenu);
@@ -155,6 +157,20 @@ const MenuNavigation = props => {
  * @param {string} props.description Description of menu option
  */
 const MenuItem = props => {
+  const [state, setState] = useContext(AppContext);
+
+  const selectItem = item => {
+    setState({
+      ...state,
+      userSelection: {
+        items: state.userSelection
+          ? [...state.userSelection.items, item]
+          : [item],
+        user: state.user
+      }
+    });
+  };
+
   const { image, name, price, description } = props;
   return (
     <div className="card d-sm-flex flex-sm-row flex-grow-1 mb-2">
@@ -165,6 +181,11 @@ const MenuItem = props => {
         <p className="card-text">
           <small>{price} €</small>
         </p>
+        {state.isLoggedIn && (
+          <button type="button" class="btn" onClick={() => selectItem(props)}>
+            Auswählen
+          </button>
+        )}
       </div>
     </div>
   );
