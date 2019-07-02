@@ -27,12 +27,6 @@ const links = [
   { label: '', path: '/settings' }
 ];
 
-const TableCreator = () => {
-  const names = ['Affe', 'Löwe', 'Hund', 'Katze', 'Maus', 'Schlange'];
-  console.log(names);
-  return <Tables names={names} />;
-};
-
 export const AppContext = React.createContext([{}, () => {}]);
 
 const App = () => {
@@ -49,7 +43,11 @@ const App = () => {
         history.push('/');
       })
       .then(data => {
-        setState({ ...state, isLoggedIn: data.logged_in, user: data.user });
+        setState({
+          ...state,
+          isLoggedIn: data.logged_in,
+          user: data.user
+        });
         if (data.logged_in) {
           history.push();
         }
@@ -74,7 +72,7 @@ const App = () => {
                 <Route path="/order/history" exact component={History} />
                 <Route path="/signin" exact component={SignIn} />
                 <Route path="/signup" exact component={SignUp} />
-                <Route path="/tables" exact component={TableCreator} />
+                <Route path="/tables" exact component={Tables} />
               </Switch>
             </section>
             <LiveOrder />

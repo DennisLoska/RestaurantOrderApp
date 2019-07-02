@@ -2,7 +2,7 @@ import json
 import bcrypt
 import pymongo
 from bson import json_util
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from flask import Flask, request, Response, jsonify, render_template, session
 
 client = pymongo.MongoClient(
@@ -169,6 +169,22 @@ def getCategories():
         )
 
 
+@app.route('/api/tables', methods=['GET'])
+def getTables():
+    tables = db.tables
+    all_tables = list(tables.find())
+    if all_tables:
+        return Response(
+            json.dumps(all_tables, default=json_util.default),
+            mimetype='application/json',
+        )
+    else:
+        return Response(
+            json.dumps({'error': 'No tables found!'}),
+            mimetype='application/json',
+        )
+
+
 @app.route('/api/tableorder', methods=['GET'])
 def getTableOrder():
     if table_order:
@@ -208,6 +224,22 @@ def test_disconnect():
     print('Client disconnected')
 
 
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    send(username + ' has entered the room.', room=room)
+
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', room=room)
+
+
 @socketio.on('item-selected')
 def broadcastSelection(data, methods=['GET', 'POST']):
     if data is not None:
@@ -227,7 +259,7 @@ def broadcastSelection(data, methods=['GET', 'POST']):
                 # table_order.append(selection)
         table_order.append(selection)
         response = json.dumps(table_order, default=json_util.default)
-        socketio.emit('order-broadcast', response, broadcast=True)
+        emit('order-broadcast', response, broadcast=True)
 
 
 # https://stackoverflow.com/questions/53522052/flask-app-valueerror-signal-only-works-in-main-thread
