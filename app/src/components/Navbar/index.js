@@ -15,8 +15,14 @@ import { AppContext } from '../../App';
  * @param {{label: string, path: string}} props.links Navigation paths
  */
 const Navbar = withRouter(props => {
-  const { location, links } = props;
   const [state, setState] = useContext(AppContext);
+
+  const { location, links } = {
+    ...props,
+    links: !state.isLoggedIn
+      ? props.links.filter(({ label, _ }) => label !== 'Bestellverlauf')
+      : props.links
+  };
 
   const [pathName, setPathName] = useState(location.pathname);
   const [collapsed, setCollapsed] = useState(true);
@@ -65,28 +71,17 @@ const Navbar = withRouter(props => {
           const handleOnClick = () => {
             selectMenu(path);
           };
-          if (label === 'Bestellverlauf') {
-            return state.isLoggedIn ? (
-              <li
-                key={label}
-                className={pathName === path ? 'nav-item active' : 'nav-item'}
-              >
-                <Link className="nav-link" to={path} onClick={handleOnClick}>
-                  {label}
-                </Link>
-              </li>
-            ) : null;
-          } else
-            return (
-              <li
-                key={label}
-                className={pathName === path ? 'nav-item active' : 'nav-item'}
-              >
-                <Link className="nav-link" to={path} onClick={handleOnClick}>
-                  {label}
-                </Link>
-              </li>
-            );
+
+          return (
+            <li
+              key={label}
+              className={pathName === path ? 'nav-item active' : 'nav-item'}
+            >
+              <Link className="nav-link" to={path} onClick={handleOnClick}>
+                {label}
+              </Link>
+            </li>
+          );
         })}
         {state.isLoggedIn && (
           <li>

@@ -72,6 +72,7 @@
       transition: transform 0.2s ease-in-out;
       transform: rotate(90deg);
       font-weight: 600;
+      font-size: 1.125rem;
 
       &.collapsed {
         transform: none;

@@ -76,7 +76,7 @@ const App = () => {
                 <Route path="/tables" exact component={TableCreator} />
               </Switch>
             </section>
-            {state.isLoggedIn && <LiveOrder />}
+            <LiveOrder />
           </main>
           <Footer />
         </Router>

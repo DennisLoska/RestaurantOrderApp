@@ -7,6 +7,10 @@ import './LiveOrder.css';
 const LiveOrder = () => {
   const [state, setState] = useContext(AppContext);
 
+  if (!state.isLoggedIn) {
+    return null;
+  }
+
   useEffect(() => {
     fetch('http://localhost:5000/api/tableorder', {
       method: 'get'
