@@ -18,34 +18,33 @@ const MenuCard = () => {
   };
 
   const generateMenu = (menuItems, categories) => {
-    const subMenu = new Map();
     //we use the position attribute to sort the categories in the correct order
-    let sortedCategories = categories.sort(
-      (cat1, cat2) => cat1.position - cat2.position
-    );
+    categories.sort((cat1, cat2) => cat1.position - cat2.position);
     console.log('items:', menuItems);
-    console.log('categories:', sortedCategories);
-    menuItems.forEach(item => {
-      const { _id, name, description, price, img_url } = item;
-      sortedCategories.map(category => {
-        const elements = subMenu.get(category.name) || [];
-        //adding an item to the category for the menu if it matches
-        if (category.name === item.category) {
-          elements.push({
-            _id,
-            name,
-            description,
-            price,
-            img_url
-          });
-          subMenu.set(category.name, elements);
-        }
-        return null;
-      });
+    console.log('categories:', categories);
+
+    // init map with categories as keys
+    const tempMenu = new Map();
+    categories.forEach(category => {
+      tempMenu.set(category.name, []);
     });
-    console.log('menu:', subMenu);
-    setMenu(subMenu);
-    setCategory(subMenu.keys().next().value || 'Loading...');
+
+    menuItems.forEach(item => {
+      const { _id, name, description, price, category, img_url } = item;
+      // on foreign category it will create a new entry
+      const elements = tempMenu.get(category) || [];
+      elements.push({
+        _id,
+        name,
+        description,
+        price,
+        img_url
+      });
+      tempMenu.set(category, elements);
+    });
+    console.log('menu:', tempMenu);
+    setMenu(tempMenu);
+    setCategory(tempMenu.keys().next().value || 'Loading...');
   };
 
   const fetchCategories = items => {
