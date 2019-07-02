@@ -1,4 +1,5 @@
 import React from 'react';
+import './OrderHistory.css';
 
 /**
  * A list of entries from previous orders displaying the date and name of food
@@ -8,19 +9,22 @@ import React from 'react';
  */
 const OrderHistory = props => {
   return (
-    <table id="history" className="table table-borderless table-hover">
-      <thead className="thead-dark">
-        <tr>
-          <th>Date</th>
-          <th>Order</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.history.map(entry => (
-          <Entry key={entry.id} date={entry.date} food={entry.food} />
-        ))}
-      </tbody>
-    </table>
+    <React.Fragment>
+      <h5 className="header">Bestellverlauf</h5>
+      <table id="history" className="table table-borderless table-hover">
+        <thead className="thead-dark">
+          <tr>
+            <th>Date</th>
+            <th>Order</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.history.map(entry => (
+            <Entry key={entry.id} date={entry.date} food={entry.food} />
+          ))}
+        </tbody>
+      </table>
+    </React.Fragment>
   );
 };
 
@@ -33,7 +37,9 @@ const Entry = props => {
   const { date, food } = props;
   return (
     <tr>
-      <td>{date}</td>
+      <td>
+        <strong>{date}</strong>
+      </td>
       <td>{food}</td>
     </tr>
   );

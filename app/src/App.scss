@@ -1,0 +1,64 @@
+@import 'variables.scss';
+@import 'bootstrap/scss/bootstrap-grid.scss';
+
+#root > .container {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  margin: 1rem 0rem;
+
+  > section {
+    margin: 0.25rem;
+    flex-grow: 1;
+  }
+}
+
+.header {
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#live-area {
+  flex-basis: calc(100% / 3);
+}
+
+#menu {
+  flex-basis: calc(100% * 2 / 3);
+
+  .header {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  main {
+    margin: 0.5rem 0rem;
+    flex-direction: column-reverse;
+
+    section {
+      margin: 0px;
+    }
+  }
+
+  .header {
+    padding: 0.4rem 0.75rem;
+  }
+
+  #menu .header {
+    display: block;
+    background-color: $color-green;
+    color: white;
+  }
+
+  #root > .container {
+    padding: 0px;
+    min-width: 95%;
+  }
+}

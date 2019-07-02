@@ -1,0 +1,74 @@
+@import 'variables.scss';
+@import 'bootstrap/scss/bootstrap-grid.scss';
+
+#live-area {
+  background-color: $color-yellow;
+  padding: 0.75rem;
+
+  .btn {
+    background-color: $color-green;
+    color: white;
+    font-weight: 600;
+  }
+
+  .header {
+    background-color: white;
+    border-radius: 0.25rem;
+    text-align: center;
+
+    ~ div {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.square {
+  min-width: 30px;
+  min-height: 30px;
+  max-height: 2rem;
+  max-width: 2rem;
+  text-align: center;
+}
+
+.order-grid {
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  gap: 0.3rem 0.5rem;
+  align-items: center;
+}
+
+.order-count {
+  background-color: white;
+  font-size: 0.9rem;
+  padding: 0.25rem;
+}
+
+#order-now {
+  display: block;
+  margin: 1.5rem auto;
+}
+
+@include media-breakpoint-down(sm) {
+  #live-area {
+    background-color: white;
+    padding: 0px;
+
+    .header {
+      background-color: $color-yellow;
+      border-radius: 0px;
+      color: white;
+      text-align: left;
+
+      ~ div {
+        margin-left: 0.75rem;
+        margin-right: 0.75rem;
+      }
+    }
+  }
+
+  .order-count {
+    background-color: white;
+    border: 1px solid $color-light-gray;
+  }
+}

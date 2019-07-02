@@ -30,9 +30,11 @@ class socketAPI {
       if (!this.socket) return reject('No socket connection.');
       return this.socket.emit(event, data, response => {
         // Response is the optional callback that you can use with socket.io in every request. See 1 above.
-        if (response.error) {
-          console.error(response.error);
-          return reject(response.error);
+        if (response) {
+          if (response.error) {
+            console.error(response.error);
+            return reject(response.error);
+          }
         }
         return resolve();
       });
@@ -60,5 +62,4 @@ class socketAPI {
 }
 
 const socket = new socketAPI();
-socket.connect();
 export default socket;

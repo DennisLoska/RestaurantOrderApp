@@ -1,0 +1,77 @@
+@import 'variables.scss';
+@import 'bootstrap/scss/bootstrap-grid.scss';
+
+#menu-card-nav > .navbar-nav {
+  flex-wrap: wrap;
+  white-space: nowrap;
+
+  .nav-link {
+    color: $text-color;
+  }
+
+  .nav-item.active > .nav-link {
+    color: $color-green;
+    font-weight: 600;
+  }
+}
+
+#menu-card {
+  .card-img-left {
+    flex-shrink: 0;
+    min-height: 6rem;
+    min-width: 6rem;
+    width: 25%;
+    height: auto;
+    max-height: 95%;
+    margin: auto;
+    object-fit: cover;
+  }
+
+  .card {
+    .btn {
+      background-color: #19a395;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  #menu-card .card-img-left {
+    width: 45%;
+    max-width: 95%;
+    max-height: 45%;
+  }
+
+  #menu-card-nav {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .navbar-toggler {
+      outline: none;
+      padding: 0px;
+    }
+
+    .navbar-nav {
+      flex-wrap: nowrap;
+      max-height: 100vh;
+      transition: max-height 0.2s ease-in-out;
+
+      &.collapsed {
+        max-height: 0vh;
+      }
+    }
+
+    .navbar-toggler-icon {
+      color: $color-green;
+      transition: transform 0.2s ease-in-out;
+      transform: rotate(90deg);
+      font-weight: 600;
+
+      &.collapsed {
+        transform: none;
+      }
+    }
+  }
+}

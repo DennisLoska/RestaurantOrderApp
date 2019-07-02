@@ -1,21 +1,19 @@
 import json
+import bcrypt
 import pymongo
 from bson import json_util
-import bcrypt
-from flask import Flask, request, Response, jsonify, render_template, session
 from flask_socketio import SocketIO, emit
+from flask import Flask, request, Response, jsonify, render_template, session
 
 client = pymongo.MongoClient(
     "mongodb://admin:CXuK1qvc7C6V8Av4XPyI@codefree-shard-00-00-2k3ax.mongodb.net:27017,codefree-shard-00-01-2k3ax.mongodb.net:27017,codefree-shard-00-02-2k3ax.mongodb.net:27017/test?ssl=true&replicaSet=codefree-shard-0&authSource=admin&retryWrites=true")
 db = client["restaurant"]
-customers = db.customers
-orders = db.orders
-items = db.items
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 app.secret_key = 'session_secret'
 socketio = SocketIO(app)
+table_order = list()
 
 notes = {
     0: 'Frontend is using React',
@@ -34,10 +32,7 @@ def serve():
     return Response(
         json.dumps(notes),
         mimetype='application/json',
-        headers={
-            'Cache-Control': 'no-cache',
-            'Access-Control-Allow-Origin': '*'
-        }
+
     )
 
 
@@ -61,19 +56,13 @@ def register():
                 json.dumps({'logged_in': True,
                             'user': session['username']}),
                 mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            )
         else:
             return Response(
                 json.dumps({'logged_in': False,
                             'error': 'Same username already exists!'}),
                 mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            )
 
 
 @app.route('/api/login', methods=['POST'])
@@ -83,32 +72,53 @@ def login():
         {'username': request.form['username']})
     if login_user:
         hashed_pw = bcrypt.hashpw(request.form['password'].encode(
-            'utf-8'), login_user['password'].encode('utf-8'))
-        if hashed_pw == login_user['password'].encode('utf-8'):
+            'utf-8'), bytes(login_user['password']))
+        if hashed_pw == login_user['password']:
             session['username'] = request.form['username']
             session['logged_in'] = True
             return Response(
                 json.dumps({'logged_in': True,
                             'user': session['username']}),
                 mimetype='application/json',
-                headers={
-                    'Cache-Control': 'no-cache',
-                    'Access-Control-Allow-Origin': '*'
-                })
+            )
     return Response(
         json.dumps({'logged_in': False,
                     'error': 'Wrong username or password!'}),
         mimetype='application/json',
-        headers={
-            'Cache-Control': 'no-cache',
-            'Access-Control-Allow-Origin': '*'
-        })
+    )
+
+
+@app.route('/api/authStatus', methods=['GET'])
+def getStatus():
+    users = db.customers
+    username = session.get('username')
+    if username:
+        existing_user = users.find_one(
+            {'username': username})
+        if existing_user:
+            return Response(
+                json.dumps({'logged_in': True,
+                            'user': username}),
+                mimetype='application/json',
+            )
+        else:
+            return Response(
+                json.dumps(
+                    {'logged_in': False, 'error': 'Session exists, but user does not exist anymore.'}),
+                mimetype='application/json',
+            )
+    else:
+        return Response(
+            json.dumps({'logged_in': False,
+                        'error': 'Wrong username or password!'}),
+            mimetype='application/json',
+        )
 
 
 @app.route('/api/logout')
 def logout():
     # remove the username from the session
-    session.pop('username', None)
+    session.clear()
     return render_template('index.html')
 
 
@@ -120,18 +130,12 @@ def getOrders():
         return Response(
             json.dumps({'orders': user_orders}),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
     else:
         return Response(
             json.dumps({'error': 'No orders found!'}),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
 
 
 @app.route('/api/items', methods=['GET'])
@@ -142,18 +146,42 @@ def getItems():
         return Response(
             json.dumps(restaurant_items, default=json_util.default),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
     else:
         return Response(
             json.dumps({'error': 'No items found!'}),
             mimetype='application/json',
-            headers={
-                'Cache-Control': 'no-cache',
-                'Access-Control-Allow-Origin': '*'
-            })
+        )
+
+
+@app.route('/api/categories', methods=['GET'])
+def getCategories():
+    categories = db.categories
+    all_categories = list(categories.find())
+    if all_categories:
+        return Response(
+            json.dumps(all_categories, default=json_util.default),
+            mimetype='application/json',
+        )
+    else:
+        return Response(
+            json.dumps({'error': 'No categories found!'}),
+            mimetype='application/json',
+        )
+
+
+@app.route('/api/tableorder', methods=['GET'])
+def getTableOrder():
+    if table_order:
+        return Response(
+            json.dumps(table_order, default=json_util.default),
+            mimetype='application/json',
+        )
+    else:
+        return Response(
+            json.dumps({'error': 'No items selected!'}),
+            mimetype='application/json',
+        )
 
 
 # Routing - we do not use the Flask server for routing in our application
@@ -179,6 +207,28 @@ def test_connect():
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
+
+
+@socketio.on('item-selected')
+def broadcastSelection(data, methods=['GET', 'POST']):
+    if data is not None:
+        selection = json.loads(data)
+        if not table_order:
+            print('hi')  # table_order.append(selection)
+        else:
+            user_exists = False
+            for order in table_order:
+                if order['user'] == selection['user']:
+                    user_exists = True
+                    # order['items'].update(selection['user'])
+                    # print(order['items'])
+                    table_order.remove(order)
+                    break
+            # if not user_exists:
+                # table_order.append(selection)
+        table_order.append(selection)
+        response = json.dumps(table_order, default=json_util.default)
+        socketio.emit('order-broadcast', response, broadcast=True)
 
 
 # https://stackoverflow.com/questions/53522052/flask-app-valueerror-signal-only-works-in-main-thread
