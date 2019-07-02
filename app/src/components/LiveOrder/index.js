@@ -14,23 +14,28 @@ const LiveOrder = () => {
       .then(response => response.json())
       .catch(err => console.log(err))
       .then(tableOrder => {
-        console.log(tableOrder);
-
-        let userItems = tableOrder.map(order =>
-          order.user === state.user ? order.items : null
-        );
-        console.log(userItems);
-        setState({
-          ...state
-          //TODO: update state correctly with data from the server
-          //tableOrder: tableOrder,
-          // userSelection: {
-          //   items: state.userSelection
-          //     ? [...state.userSelection.items, userItems]
-          //     : userItems,
-          //   user: state.user
-          // }
-        });
+        console.log('tableorder', tableOrder);
+        if (!tableOrder.error) {
+          let itemsFound = false;
+          tableOrder.map(order => {
+            if (order.items) itemsFound = true;
+          });
+          if (itemsFound) {
+            let userOrder = tableOrder.filter(
+              order => order.user === state.user
+            );
+            console.log('userOrder', userOrder);
+            setState({
+              ...state,
+              tableOrder,
+              userSelection: {
+                items: userOrder.length > 0 ? userOrder[0].items : [],
+                user: state.user
+              }
+            });
+          } else setState({ ...state, userSelection: { user: state.user } });
+        } else setState({ ...state, userSelection: { user: state.user } });
+        console.log('state', state);
       })
       .catch(err => console.log(err));
   }, [state.tableOrder === undefined]);
@@ -39,6 +44,8 @@ const LiveOrder = () => {
     if (state.isLoggedIn) {
       socket.connect();
       socket.off('order-broadcast');
+      console.log('userSelection', state);
+
       const data = JSON.stringify(state.userSelection);
       socket.emit('item-selected', data);
       socket.on('order-broadcast', order => {

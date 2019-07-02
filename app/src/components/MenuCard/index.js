@@ -159,12 +159,15 @@ const MenuItem = props => {
   const [state, setState] = useContext(AppContext);
 
   const selectItem = item => {
+    console.log('selected', item);
+    console.log('state', state);
     setState({
       ...state,
       userSelection: {
-        items: state.userSelection
-          ? [...state.userSelection.items, item]
-          : [item],
+        items:
+          state.userSelection && state.userSelection.items
+            ? [...state.userSelection.items, item]
+            : [item],
         user: state.user
       }
     });

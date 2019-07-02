@@ -32,7 +32,6 @@ def serve():
     return Response(
         json.dumps(notes),
         mimetype='application/json',
-
     )
 
 
