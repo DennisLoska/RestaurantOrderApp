@@ -78,7 +78,7 @@ const Navbar = withRouter(props => {
               className={pathName === path ? 'nav-item active' : 'nav-item'}
             >
               <Link className="nav-link" to={path} onClick={handleOnClick}>
-                {label}
+                {label.length > 0 ? label : state.user}
               </Link>
             </li>
           );

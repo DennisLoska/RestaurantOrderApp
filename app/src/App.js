@@ -23,7 +23,8 @@ const History = () => {
 
 const links = [
   { label: 'Speisekarte', path: '/order' },
-  { label: 'Bestellverlauf', path: '/order/history' }
+  { label: 'Bestellverlauf', path: '/order/history' },
+  { label: '', path: '/settings' }
 ];
 
 const TableCreator = () => {
@@ -50,7 +51,7 @@ const App = () => {
       .then(data => {
         setState({ ...state, isLoggedIn: data.logged_in, user: data.user });
         if (data.logged_in) {
-          history.push('order');
+          history.push();
         }
       })
       .catch(err => {
