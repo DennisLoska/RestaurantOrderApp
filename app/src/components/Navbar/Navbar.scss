@@ -48,7 +48,7 @@
       padding: 1.5rem 1rem;
       flex-direction: column;
       max-height: 100vh;
-      transition: max-height 0.3s ease-in-out;
+      transition: all 0.2s ease-in-out;
       overflow: hidden;
 
       &.collapsed {
