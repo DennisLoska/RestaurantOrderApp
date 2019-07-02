@@ -37,10 +37,14 @@
 }
 
 @include media-breakpoint-down(xs) {
-  #menu-card .card-img-left {
-    width: 45%;
-    max-width: 95%;
-    max-height: 45%;
+  #menu-card {
+    padding: 0rem 0.25rem;
+
+    .card-img-left {
+      width: 45%;
+      max-width: 95%;
+      max-height: 45%;
+    }
   }
 
   #menu-card-nav {
