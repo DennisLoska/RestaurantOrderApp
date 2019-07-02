@@ -13,9 +13,27 @@ const LiveOrder = () => {
     })
       .then(response => response.json())
       .catch(err => console.log(err))
-      .then(tableOrder => setState({ ...state, tableOrder }))
+      .then(tableOrder => {
+        console.log(tableOrder);
+
+        let userItems = tableOrder.map(order =>
+          order.user === state.user ? order.items : null
+        );
+        console.log(userItems);
+        setState({
+          ...state
+          //TODO: update state correctly with data from the server
+          //tableOrder: tableOrder,
+          // userSelection: {
+          //   items: state.userSelection
+          //     ? [...state.userSelection.items, userItems]
+          //     : userItems,
+          //   user: state.user
+          // }
+        });
+      })
       .catch(err => console.log(err));
-  }, [!state.tableOrder]);
+  }, [state.tableOrder === undefined]);
 
   useEffect(() => {
     if (state.isLoggedIn) {
@@ -36,17 +54,29 @@ const LiveOrder = () => {
     <section id="live-area">
       <h5 className="header">Bestellung</h5>
       <div>
-        <strong>{state.user}:</strong>
-        {state.tableOrder
+        {state.tableOrder && !state.tableOrder.error
           ? state.tableOrder.map(order => (
-              <div key={state.user} className="order-grid">
-                {order.items.map(item => (
-                  <OrderItem
-                    key={item.name}
-                    itemCount={null}
-                    name={item.name}
-                  />
-                ))}
+              <div key={order.user}>
+                <strong>{order.user}:</strong>
+                <div className="order-grid">
+                  {Object.prototype.toString
+                    .call(order.items)
+                    .includes('Array') && order.items.length > 0 ? (
+                    order.items.map(item => (
+                      <OrderItem
+                        key={item.name}
+                        itemCount={null}
+                        name={item.name}
+                      />
+                    ))
+                  ) : order.items ? (
+                    <OrderItem
+                      key={order.items.name}
+                      itemCount={null}
+                      name={order.items.name}
+                    />
+                  ) : null}
+                </div>
               </div>
             ))
           : null}

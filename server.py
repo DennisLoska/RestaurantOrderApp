@@ -2,7 +2,6 @@ import json
 import bcrypt
 import pymongo
 from bson import json_util
-from collections import namedtuple
 from flask_socketio import SocketIO, emit
 from flask import Flask, request, Response, jsonify, render_template, session
 
@@ -214,9 +213,19 @@ def test_disconnect():
 def broadcastSelection(data, methods=['GET', 'POST']):
     if data is not None:
         selection = json.loads(data)
-        for order in table_order:
-            if order['user'] == selection['user']:
-                table_order.remove(order)
+        if not table_order:
+            print('hi')  # table_order.append(selection)
+        else:
+            user_exists = False
+            for order in table_order:
+                if order['user'] == selection['user']:
+                    user_exists = True
+                    # order['items'].update(selection['user'])
+                    # print(order['items'])
+                    table_order.remove(order)
+                    break
+            # if not user_exists:
+                # table_order.append(selection)
         table_order.append(selection)
         response = json.dumps(table_order, default=json_util.default)
         socketio.emit('order-broadcast', response, broadcast=True)
