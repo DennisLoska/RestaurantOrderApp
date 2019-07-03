@@ -20,7 +20,7 @@ const Navbar = withRouter(props => {
   const { location, links } = {
     ...props,
     links: !state.isLoggedIn
-      ? props.links.filter(({ label, _ }) => label !== 'Bestellverlauf')
+      ? props.links.filter(({ label, _ }) => label !== 'Bestellverlauf' && label !== '')
       : props.links
   };
 
@@ -82,14 +82,15 @@ const Navbar = withRouter(props => {
           const handleOnClick = () => {
             selectMenu(path);
           };
+          const _label = label.length > 0 ? label : state.user;
 
           return (
             <li
-              key={label}
+              key={_label}
               className={pathName === path ? 'nav-item active' : 'nav-item'}
             >
               <Link className="nav-link" to={path} onClick={handleOnClick}>
-                {label.length > 0 ? label : state.user}
+                {_label}
               </Link>
             </li>
           );
