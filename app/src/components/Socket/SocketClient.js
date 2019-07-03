@@ -62,4 +62,5 @@ class socketAPI {
 }
 
 const socket = new socketAPI();
+socket.connect();
 export default socket;
