@@ -84,6 +84,7 @@ const LiveOrder = () => {
       .catch(err => console.log(err))
       .then(data => {
         alert(data.msg);
+        history.push('order/history');
       });
   };
 
@@ -131,6 +132,7 @@ const LiveOrder = () => {
         name="order-now"
         type="button"
         className="btn"
+        style={{ display: 'none' }}
         onClick={onReadyToOrder}
       >
         Bereit

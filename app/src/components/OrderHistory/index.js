@@ -8,7 +8,7 @@ import './OrderHistory.css';
  * @param {{ id: string, date: string, food: string }[]} props.history Previous orders
  */
 const OrderHistory = props => {
-  const [history, setHistory] = useState({});
+  const [history, setHistory] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/orders', {
@@ -23,6 +23,7 @@ const OrderHistory = props => {
       })
       .catch(err => console.log(err));
   }, []);
+  console.log(history);
 
   return (
     <React.Fragment>
@@ -30,14 +31,16 @@ const OrderHistory = props => {
       <table id="history" className="table table-borderless table-hover">
         <thead className="thead-dark">
           <tr>
-            <th>Date</th>
+            <th>Tisch</th>
             <th>Order</th>
           </tr>
         </thead>
         <tbody>
-          {props.history.map(entry => (
-            <Entry key={entry.id} date={entry.date} food={entry.food} />
-          ))}
+          {history
+            ? history.map(entry => (
+                <Entry key={entry._id} table={entry.table} food={entry.items} />
+              ))
+            : null}
         </tbody>
       </table>
     </React.Fragment>
@@ -50,13 +53,14 @@ const OrderHistory = props => {
  * @param {string} props.food The name of the purchased menu option
  */
 const Entry = props => {
-  const { date, food } = props;
+  const { table, food } = props;
   return (
     <tr>
       <td>
-        <strong>{date}</strong>
+        <strong>{table}</strong>
       </td>
-      <td>{food}</td>
+
+      <td>{food.map(food => food.name + ', ')}</td>
     </tr>
   );
 };
