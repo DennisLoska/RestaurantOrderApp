@@ -33,8 +33,15 @@ const SignIn = () => {
       .catch(err => console.log(err))
       .then(data => {
         if (data.logged_in) {
-          setState({ ...state, isLoggedIn: true, user: data.user });
-          history.push('order');
+          setState({
+            ...state,
+            isLoggedIn: true,
+            user: data.user,
+            room: state.room ? state.room : ''
+          });
+          if (!state.room || state.room === '') {
+            history.push('tables');
+          } else history.push('order');
         } else alert(data.error);
       })
       .catch(err => console.log(err));
