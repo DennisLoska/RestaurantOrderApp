@@ -1,38 +1,23 @@
+import eventlet
 import json
 import bcrypt
 import pymongo
 from bson import json_util
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import Flask, request, Response, jsonify, render_template, session
+
+eventlet.monkey_patch()
 
 client = pymongo.MongoClient(
     "mongodb://admin:CXuK1qvc7C6V8Av4XPyI@codefree-shard-00-00-2k3ax.mongodb.net:27017,codefree-shard-00-01-2k3ax.mongodb.net:27017,codefree-shard-00-02-2k3ax.mongodb.net:27017/test?ssl=true&replicaSet=codefree-shard-0&authSource=admin&retryWrites=true")
 db = client["restaurant"]
+
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 app.secret_key = 'session_secret'
 socketio = SocketIO(app)
 table_order = list()
-
-notes = {
-    0: 'Frontend is using React',
-    1: 'Backend is using Flask',
-    2: 'Have fun!'
-}
-
-# API endpoints
-@app.route('/api/v1/notes', methods=['GET', 'POST'])
-def serve():
-    if request.method == 'POST' and request.is_json:
-        new_note = request.get_json()['note']
-        new_note_id = len(notes)
-        notes[new_note_id] = new_note
-
-    return Response(
-        json.dumps(notes),
-        mimetype='application/json',
-    )
 
 
 @app.route('/api/register', methods=['POST'])
@@ -226,24 +211,35 @@ def test_disconnect():
 
 @socketio.on('join')
 def on_join(data):
-    username = data['username']
-    room = data['room']
-    join_room(room)
-    send(username + ' has entered the room.', room=room)
+    info = json.loads(data)
+    username = info['username']
+    room = info['room']
+    join_room(room, request.sid, '/')
+    message = {"msg": username + ' has entered the room ' + room,
+               "room": room}
+    emit('in-room', json.dumps(message), room=room)
 
 
 @socketio.on('leave')
 def on_leave(data):
-    username = data['username']
-    room = data['room']
-    leave_room(room)
-    send(username + ' has left the room.', room=room)
+    info = json.loads(data)
+    username = info['username']
+    room = info['room']
+    if(room == ''):
+        room = request.sid
+    message = {"msg": username + ' has left the room ' + room,
+               "room": room}
+    emit('out-room', json.dumps(message), room=room)
+    leave_room(room, request.sid, '/')
 
 
 @socketio.on('item-selected')
 def broadcastSelection(data, methods=['GET', 'POST']):
     if data is not None:
-        selection = json.loads(data)
+        info = json.loads(data)
+        selection = info['order']
+        print(info['room'])
+        room = info['room']
         if not table_order:
             print('hi')  # table_order.append(selection)
         else:
@@ -259,10 +255,10 @@ def broadcastSelection(data, methods=['GET', 'POST']):
                 # table_order.append(selection)
         table_order.append(selection)
         response = json.dumps(table_order, default=json_util.default)
-        emit('order-broadcast', response, broadcast=True)
+        emit('order-broadcast', response, room=room)
 
 
 # https://stackoverflow.com/questions/53522052/flask-app-valueerror-signal-only-works-in-main-thread
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0',
+    socketio.run(app, host='127.0.0.1',
                  port=5000, debug=True)
