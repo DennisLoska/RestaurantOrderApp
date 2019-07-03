@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './OrderHistory.css';
 
 /**
@@ -8,6 +8,22 @@ import './OrderHistory.css';
  * @param {{ id: string, date: string, food: string }[]} props.history Previous orders
  */
 const OrderHistory = props => {
+  const [history, setHistory] = useState({});
+
+  useEffect(() => {
+    fetch('http://localhost:5000/orders', {
+      method: 'get'
+    })
+      .then(response => response.json())
+      .catch(err => console.log(err))
+      .then(data => {
+        let orderHistory = JSON.parse(data);
+        setHistory(orderHistory);
+        console.log(orderHistory);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
   return (
     <React.Fragment>
       <h5 className="header">Bestellverlauf</h5>

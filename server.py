@@ -108,10 +108,10 @@ def logout():
 @app.route('/api/orders', methods=['GET'])
 def getOrders():
     orders = db.orders
-    user_orders = orders.find({'username': session['username']})
+    user_orders = list(orders.find({'username': session['username']}))
     if user_orders:
         return Response(
-            json.dumps({'orders': user_orders}),
+            json.dumps(user_orders, default=json_util.default),
             mimetype='application/json',
         )
     else:
