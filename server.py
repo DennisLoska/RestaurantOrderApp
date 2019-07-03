@@ -192,6 +192,27 @@ def getTableOrder():
         )
 
 
+@app.route('/api/order', methods=['GET', 'POST'])
+def sendOrder():
+    data = json.loads(request.data)
+    room = data['room']
+    orders = db.orders
+    if table_order:
+        if room in table_order:
+            for order in table_order[room]:
+                orders.insert_one(
+                    {"username": order['user'], "items": order['items'], "table": room})
+
+        return Response(
+            json.dumps({"msg": 'Bestellung erfolgreich aufgegeben!'}),
+            mimetype='application/json',
+        )
+    return Response(
+        json.dumps({'error': 'Keine Bestellung gefunden!'}),
+        mimetype='application/json',
+    )
+
+
 # Routing - we do not use the Flask server for routing in our application
 # We use React Router to route through the app. So when a user tries to
 # access the route e.g. /test instead of routing to a specific file/template
