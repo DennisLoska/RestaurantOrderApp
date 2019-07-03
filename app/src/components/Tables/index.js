@@ -1,30 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import socket from '../Socket/SocketClient';
+import { AppContext } from '../../App';
+import history from '../../history';
 import './Tables.css';
 
 const Tables = () => {
-  const [state, setState] = useState({});
+  const [tables, setTables] = useState({});
+  const [state, setState] = useContext(AppContext);
 
   useEffect(() => {
-    console.log('test');
     fetch('http://localhost:5000/api/tables', {
       method: 'get'
     })
       .then(response => response.json())
       .catch(err => console.log(err))
-      .then(tables => setState({ ...state, tables }))
+      .then(tables => setTables({ tables }))
       .catch(err => console.log(err));
   }, []);
 
-  console.log(state);
   return (
     <React.Fragment>
       <h2> An welchem Tisch sitzt du?</h2>
       <div className="d-sm-flex flex-row justify-content-center align-content-stretch flex-wrap">
-        {state.tables &&
-          state.tables.map(table => {
+        {tables.tables &&
+          tables.tables.map(table => {
             const { id, name, free } = table;
             const handleOnClick = () => {
-              alert(name);
+              let data = {
+                username: state.user,
+                room: name
+              };
+              socket.off('in-room');
+              socket.emit('join', JSON.stringify(data));
+              socket.on('in-room', response => {
+                let data = JSON.parse(response);
+                console.log(data.msg);
+                setState({ ...state, room: data.room });
+                history.push('order');
+              });
             };
             return (
               <div key={id} className="tableSelection" onClick={handleOnClick}>
