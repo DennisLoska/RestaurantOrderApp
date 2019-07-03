@@ -17,7 +17,7 @@ app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 app.secret_key = 'session_secret'
 socketio = SocketIO(app)
-table_order = list()
+table_order = dict()
 
 
 @app.route('/api/register', methods=['POST'])
@@ -170,13 +170,22 @@ def getTables():
         )
 
 
-@app.route('/api/tableorder', methods=['GET'])
+@app.route('/api/tableorder', methods=['GET', 'POST'])
 def getTableOrder():
+    data = json.loads(request.data)
+    room = data['room']
     if table_order:
-        return Response(
-            json.dumps(table_order, default=json_util.default),
-            mimetype='application/json',
-        )
+        if room in table_order:
+            return Response(
+                json.dumps(table_order[room], default=json_util.default),
+                mimetype='application/json',
+            )
+        else:
+            table_order[room] = list()
+            return Response(
+                json.dumps({'error': 'No items selected!'}),
+                mimetype='application/json',
+            )
     else:
         return Response(
             json.dumps({'error': 'No items selected!'}),
@@ -240,21 +249,23 @@ def broadcastSelection(data, methods=['GET', 'POST']):
         selection = info['order']
         print(info['room'])
         room = info['room']
+        if room not in table_order:
+            table_order[room] = list()
         if not table_order:
             print('hi')  # table_order.append(selection)
         else:
             user_exists = False
-            for order in table_order:
+            for order in table_order[room]:
                 if order['user'] == selection['user']:
                     user_exists = True
                     # order['items'].update(selection['user'])
                     # print(order['items'])
-                    table_order.remove(order)
+                    table_order[room].remove(order)
                     break
             # if not user_exists:
                 # table_order.append(selection)
-        table_order.append(selection)
-        response = json.dumps(table_order, default=json_util.default)
+        table_order[room].append(selection)
+        response = json.dumps(table_order[room], default=json_util.default)
         emit('order-broadcast', response, room=room)
 
 

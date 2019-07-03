@@ -13,8 +13,17 @@ const LiveOrder = () => {
   }
 
   useEffect(() => {
+    const data = JSON.stringify({
+      order: state.userSelection ? state.userSelection : { user: state.user },
+      room: state.room ? state.room : ''
+    });
     fetch('http://localhost:5000/api/tableorder', {
-      method: 'get'
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: data
     })
       .then(response => response.json())
       .catch(err => console.log(err))
@@ -46,7 +55,7 @@ const LiveOrder = () => {
     if (!state.room || state.room === '') {
       history.push('tables');
     }
-  }, [state.tableOrder === undefined]);
+  }, []);
 
   useEffect(() => {
     if (state.isLoggedIn) {
@@ -68,7 +77,7 @@ const LiveOrder = () => {
 
   return (
     <section id="live-area">
-      <h5 className="header">Bestellung</h5>
+      <h5 className="header">{state.room} - Bestellung</h5>
       <div>
         {state.tableOrder && !state.tableOrder.error
           ? state.tableOrder.map(order => (

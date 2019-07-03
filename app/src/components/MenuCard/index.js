@@ -65,7 +65,7 @@ const MenuCard = () => {
       .catch(err => console.log(err))
       .then(items => fetchCategories(items))
       .catch(err => console.log(err));
-  }, [menu === null]);
+  }, []);
 
   return (
     <React.Fragment>
