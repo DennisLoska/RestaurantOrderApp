@@ -6,19 +6,17 @@ from bson import json_util
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import Flask, request, Response, jsonify, render_template, session
 
-eventlet.monkey_patch()
-
 client = pymongo.MongoClient(
     "mongodb://admin:CXuK1qvc7C6V8Av4XPyI@codefree-shard-00-00-2k3ax.mongodb.net:27017,codefree-shard-00-01-2k3ax.mongodb.net:27017,codefree-shard-00-02-2k3ax.mongodb.net:27017/test?ssl=true&replicaSet=codefree-shard-0&authSource=admin&retryWrites=true")
 db = client["restaurant"]
 
+eventlet.monkey_patch()
 
 app = Flask(__name__, static_url_path='', static_folder='./app/build',
             template_folder='./app/build')
 app.secret_key = 'session_secret'
 socketio = SocketIO(app)
 table_order = dict()
-
 
 @app.route('/api/register', methods=['POST'])
 def register():
