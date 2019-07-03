@@ -20,7 +20,9 @@ const Navbar = withRouter(props => {
   const { location, links } = {
     ...props,
     links: !state.isLoggedIn
-      ? props.links.filter(({ label, _ }) => label !== 'Bestellverlauf' && label !== '')
+      ? props.links.filter(
+          ({ label, _ }) => label !== 'Bestellverlauf' && label !== ''
+        )
       : props.links
   };
 

@@ -30,7 +30,10 @@ const links = [
 export const AppContext = React.createContext([{}, () => {}]);
 
 const App = () => {
-  const [state, setState] = useState({ isLoggedIn: false });
+  const [state, setState] = useState({
+    isLoggedIn: false,
+    ready: { isReady: false, user: null }
+  });
 
   useEffect(() => {
     fetch('http://localhost:5000/api/authStatus', {
