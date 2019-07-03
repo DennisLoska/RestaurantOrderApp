@@ -13,22 +13,25 @@ const LiveOrder = () => {
   }
 
   useEffect(() => {
-    if (state.isLoggedIn) {
-      socket.off('order-broadcast');
-      console.log('userSelection', state);
+    socket.off('order-broadcast');
+    console.log('userSelection', state);
 
-      const data = JSON.stringify({
-        order: state.userSelection ? state.userSelection : { user: state.user },
-        room: state.room ? state.room : ''
-      });
-      socket.on('order-broadcast', order => {
-        let updatedOrder = JSON.parse(order);
-        setState({ ...state, tableOrder: updatedOrder });
-        console.log('order', updatedOrder);
-      });
-      socket.emit('item-selected', data);
-    }
+    const data = JSON.stringify({
+      order: state.userSelection ? state.userSelection : { user: state.user },
+      room: state.room ? state.room : ''
+    });
+    socket.on('order-broadcast', order => {
+      let updatedOrder = JSON.parse(order);
+      setState({ ...state, tableOrder: updatedOrder });
+      console.log('order', updatedOrder);
+    });
+    socket.emit('item-selected', data);
   }, [state.userSelection]);
+
+  // checking earlier will prevent updating tableOrder
+  if (!state.room) {
+    return null;
+  }
 
   return (
     <section id="live-area">
