@@ -17,7 +17,7 @@ const OrderHistory = props => {
       .then(response => response.json())
       .catch(err => console.log(err))
       .then(data => {
-        let orderHistory = JSON.parse(data);
+        let orderHistory = data;
         setHistory(orderHistory);
         console.log(orderHistory);
       })
