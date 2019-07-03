@@ -18,6 +18,7 @@ app.secret_key = 'session_secret'
 socketio = SocketIO(app)
 table_order = dict()
 
+
 @app.route('/api/register', methods=['POST'])
 def register():
     if request.method == 'POST':
@@ -240,6 +241,19 @@ def on_leave(data):
     leave_room(room, request.sid, '/')
 
 
+@socketio.on('get-tableorder')
+def getLiveTableOrder(data, methods=['GET', 'POST']):
+    data = json.loads(data)
+    room = data['room']
+    if table_order:
+        if room in table_order:
+            emit('get-tableorder',
+                 json.dumps({"order": table_order[room], "ready": data['ready']}), room=room)
+    else:
+        message = {"msg": 'No items selected!'}
+        emit('get-tableorder', json.dumps(message), room=room)
+
+
 @socketio.on('item-selected')
 def broadcastSelection(data, methods=['GET', 'POST']):
     if data is not None:
@@ -248,26 +262,18 @@ def broadcastSelection(data, methods=['GET', 'POST']):
         print(info['room'])
         room = info['room']
         if room not in table_order:
+            print('created new room ' + room)
             table_order[room] = list()
-        if not table_order:
-            print('hi')  # table_order.append(selection)
         else:
-            user_exists = False
             for order in table_order[room]:
                 if order['user'] == selection['user']:
-                    user_exists = True
-                    # order['items'].update(selection['user'])
-                    # print(order['items'])
                     table_order[room].remove(order)
                     break
-            # if not user_exists:
-                # table_order.append(selection)
         table_order[room].append(selection)
         response = json.dumps(table_order[room], default=json_util.default)
         emit('order-broadcast', response, room=room)
 
 
-# https://stackoverflow.com/questions/53522052/flask-app-valueerror-signal-only-works-in-main-thread
 if __name__ == '__main__':
     socketio.run(app, host='127.0.0.1',
                  port=5000, debug=True)
