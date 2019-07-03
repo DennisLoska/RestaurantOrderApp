@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../App';
 import { Link } from 'react-router-dom';
+import history from '../../history';
 import './MenuCard.css';
 
 /**
@@ -102,6 +103,52 @@ const MenuCategory = props => {
 const MenuNavigation = props => {
   const { labels, activeLabel, onClick } = props;
   const [collapsed, setCollapsed] = useState(true);
+  const [state, setState] = useContext(AppContext);
+
+  useEffect(() => {
+    const data = JSON.stringify({
+      order: state.userSelection ? state.userSelection : { user: state.user },
+      room: state.room ? state.room : ''
+    });
+    fetch('http://localhost:5000/api/tableorder', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+      .then(response => response.json())
+      .catch(err => console.log(err))
+      .then(tableOrder => {
+        console.log('tableorder', tableOrder);
+        if (!tableOrder.error) {
+          let itemsFound = false;
+          tableOrder.map(order => {
+            if (order.items) itemsFound = true;
+          });
+          if (itemsFound) {
+            let userOrder = tableOrder.filter(
+              order => order.user === state.user
+            );
+            console.log('userOrder', userOrder);
+            setState({
+              ...state,
+              tableOrder,
+              userSelection: {
+                items: userOrder.length > 0 ? userOrder[0].items : [],
+                user: state.user
+              }
+            });
+          } else setState({ ...state, userSelection: { user: state.user } });
+        } else setState({ ...state, userSelection: { user: state.user } });
+        console.log('state', state);
+      })
+      .catch(err => console.log(err));
+    if (!state.room || state.room === '') {
+      history.push('tables');
+    }
+  }, []);
 
   const toggleMenu = () => {
     setCollapsed(!collapsed);
