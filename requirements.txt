@@ -7,4 +7,4 @@ Werkzeug==0.13
 pymongo
 bcrypt
 flask-socketio
-gevent
+eventlet
