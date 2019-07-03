@@ -42,11 +42,22 @@ const Navbar = withRouter(props => {
   };
 
   const handleLogout = () => {
-    socket.disconnect();
-    fetch('http://localhost:5000/api/logout').then(_response => {
-      setState({ ...state, isLoggedIn: false });
-      history.push('/');
+    let data = {
+      username: state.user,
+      room: state.room ? state.room : ''
+    };
+    socket.off('out-room');
+    socket.on('out-room', response => {
+      let data = JSON.parse(response);
+      console.log(data.msg);
+      setState({ ...state, room: '' });
+      fetch('http://localhost:5000/api/logout').then(_response => {
+        setState({ ...state, isLoggedIn: false });
+        socket.disconnect();
+        history.push('/');
+      });
     });
+    socket.emit('leave', JSON.stringify(data));
   };
 
   return (
