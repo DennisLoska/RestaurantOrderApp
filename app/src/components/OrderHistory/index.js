@@ -11,7 +11,7 @@ const OrderHistory = props => {
   const [history, setHistory] = useState({});
 
   useEffect(() => {
-    fetch('http://localhost:5000/orders', {
+    fetch('http://localhost:5000/api/orders', {
       method: 'get'
     })
       .then(response => response.json())
