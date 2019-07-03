@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import socket from '../Socket/SocketClient';
 import { AppContext } from '../../App';
+import history from '../../history';
 
 import './LiveOrder.css';
 
@@ -42,23 +43,27 @@ const LiveOrder = () => {
         console.log('state', state);
       })
       .catch(err => console.log(err));
+    if (!state.room || state.room === '') {
+      history.push('tables');
+    }
   }, [state.tableOrder === undefined]);
 
   useEffect(() => {
     if (state.isLoggedIn) {
-      socket.connect();
       socket.off('order-broadcast');
       console.log('userSelection', state);
 
-      const data = JSON.stringify(state.userSelection);
-      socket.emit('item-selected', data);
+      const data = JSON.stringify({
+        order: state.userSelection ? state.userSelection : { user: state.user },
+        room: state.room ? state.room : ''
+      });
       socket.on('order-broadcast', order => {
         let updatedOrder = JSON.parse(order);
         setState({ ...state, tableOrder: updatedOrder });
         console.log('order', updatedOrder);
       });
+      socket.emit('item-selected', data);
     }
-    return () => socket.disconnect();
   }, [state.userSelection]);
 
   return (
