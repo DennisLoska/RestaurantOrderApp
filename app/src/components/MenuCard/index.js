@@ -89,6 +89,7 @@ const MenuCategory = props => {
         return (
           <MenuItem
             key={_id.$oid}
+            id={_id.$oid}
             image={img_url}
             name={name}
             price={price}
@@ -203,24 +204,40 @@ const MenuNavigation = props => {
  * @param {string} props.description Description of menu option
  */
 const MenuItem = props => {
+  const { id, image, name, price, description } = props;
   const [state, setState] = useContext(AppContext);
 
-  const selectItem = item => {
-    console.log('selected', item);
+  const selectItem = () => {
+    console.log('selected', props);
     console.log('state', state);
-    setState({
-      ...state,
-      userSelection: {
-        items:
-          state.userSelection && state.userSelection.items
-            ? [...state.userSelection.items, item]
-            : [item],
-        user: state.user
-      }
-    });
+
+    if (
+      state.userSelection &&
+      state.userSelection.items &&
+      state.userSelection.items.find(i => i.id === id)
+    ) {
+      setState({
+        ...state,
+        userSelection: {
+          items: state.userSelection.items.filter(i => i.id !== id),
+          user: state.user
+        }
+      });
+    } else {
+      const item = { id, name, price, count: 1 };
+      setState({
+        ...state,
+        userSelection: {
+          items:
+            state.userSelection && state.userSelection.items
+              ? [...state.userSelection.items, item]
+              : [item],
+          user: state.user
+        }
+      });
+    }
   };
 
-  const { image, name, price, description } = props;
   return (
     <div className="card d-sm-flex flex-sm-row flex-grow-1 mb-2">
       <img className="card-img-left p-2" src={image} alt={name} />
@@ -232,7 +249,11 @@ const MenuItem = props => {
         </p>
         {state.isLoggedIn && (
           <button type="button" class="btn" onClick={() => selectItem(props)}>
-            Auswählen
+            {state.userSelection &&
+            state.userSelection.items &&
+            state.userSelection.items.find(i => i.id === id)
+              ? 'Löschen'
+              : 'Auswählen'}
           </button>
         )}
       </div>

@@ -78,36 +78,56 @@ const LiveOrder = () => {
     <section id="live-area">
       <h5 className="header">{state.room} - Bestellung</h5>
       <div>
+        <CurrentUserOrder />
         {state.tableOrder && !state.tableOrder.error
-          ? state.tableOrder.map(order => (
-              <div key={order.user}>
-                <strong>
-                  {order.user}:{' '}
-                  {state.ready.isReady &&
-                    state.ready.user === order.user &&
-                    'bereit!'}
-                </strong>
-                <div className="order-grid">
-                  {Object.prototype.toString
-                    .call(order.items)
-                    .includes('Array') && order.items.length > 0 ? (
-                    order.items.map(item => (
+          ? state.tableOrder
+              .filter(order => order.user !== state.user)
+              .map(order => (
+                <div key={order.user}>
+                  <strong>
+                    {order.user}:{' '}
+                    {state.ready.isReady &&
+                      state.ready.user === order.user &&
+                      'bereit!'}
+                  </strong>
+                  <div className="order-grid">
+                    {Object.prototype.toString
+                      .call(order.items)
+                      .includes('Array') && order.items.length > 0 ? (
+                      order.items.map(item => (
+                        <OrderItem
+                          key={item.name}
+                          count={item.count}
+                          name={item.name}
+                          price={item.price}
+                        />
+                      ))
+                    ) : order.items ? (
                       <OrderItem
-                        key={item.name}
-                        itemCount={null}
-                        name={item.name}
+                        key={order.items.name}
+                        count={order.items.count}
+                        name={order.items.name}
+                        price={order.items.price}
                       />
-                    ))
-                  ) : order.items ? (
-                    <OrderItem
-                      key={order.items.name}
-                      itemCount={null}
-                      name={order.items.name}
-                    />
-                  ) : null}
+                    ) : null}
+                  </div>
+                  <p className="text-right font-weight-bold pt-1">
+                    Total:{' '}
+                    {Object.prototype.toString
+                      .call(order.items)
+                      .includes('Array') && order.items.length > 0
+                      ? Math.round(
+                          order.items.reduce((accumulator, item) => {
+                            return accumulator + item.price * item.count;
+                          }, 0) * 100
+                        ) / 100
+                      : Math.round(
+                          order.items.count * order.items.price * 100
+                        ) / 100}{' '}
+                    €
+                  </p>
                 </div>
-              </div>
-            ))
+              ))
           : null}
       </div>
       <button
@@ -132,42 +152,117 @@ const LiveOrder = () => {
 };
 
 const OrderItem = props => {
-  const { itemCount, name } = props;
-  const [count, setCount] = useState(itemCount);
-
-  const decreaseCount = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
-
-  const increaseCount = () => {
-    setCount(count + 1);
-  };
+  const { count, name, price } = props;
 
   return (
     <React.Fragment>
       <span className="order-count rounded square">{count}x</span>
       <span>{name}</span>
-      <div className="orderButton d-flex flex-row">
-        <button
-          name="add"
-          type="button"
-          className="btn btn-sm mr-2 square"
-          onClick={decreaseCount}
-        >
-          –
-        </button>
-        <button
-          name="decrease"
-          type="button"
-          className="btn btn-sm square"
-          onClick={increaseCount}
-        >
-          +
-        </button>
-      </div>
+      <small>{`${Math.round(price * count * 100) / 100} €`}</small>
     </React.Fragment>
+  );
+};
+
+const CurrentUserOrder = () => {
+  const [state, setState] = useContext(AppContext);
+
+  if (!(state.userSelection && state.userSelection.items)) {
+    return (
+      <div>
+        <strong>
+          {state.user}:{' '}
+          {state.ready.isReady && state.ready.user === state.user && 'Bereit!'}
+        </strong>
+        <div className="user-order-grid" />
+        <p className="text-right font-weight-bold pt-1">Total: 0.00 €</p>
+      </div>
+    );
+  }
+
+  const decreaseCount = index => {
+    const count = state.userSelection.items[index].count;
+    if (count <= 1) {
+      state.userSelection.items.splice(index, 1);
+    } else {
+      state.userSelection.items[index].count = count - 1;
+    }
+
+    setState({
+      ...state,
+      userSelection: {
+        items: [...state.userSelection.items],
+        user: state.user
+      }
+    });
+  };
+
+  const increaseCount = index => {
+    state.userSelection.items[index].count =
+      state.userSelection.items[index].count + 1;
+    setState({
+      ...state,
+      userSelection: {
+        items: [...state.userSelection.items],
+        user: state.user
+      }
+    });
+  };
+
+  return (
+    <div>
+      <strong>
+        {state.user}:{' '}
+        {state.ready.isReady && state.ready.user === state.user && 'Bereit!'}
+      </strong>
+      <div className="user-order-grid">
+        {state.userSelection.items.map((item, index) => {
+          const { name, price, count } = item;
+
+          const add = () => {
+            increaseCount(index);
+          };
+
+          const decrease = () => {
+            decreaseCount(index);
+          };
+
+          return (
+            <React.Fragment>
+              <span className="order-count rounded square">{count}x</span>
+              <span>{name}</span>
+              <small>{`${Math.round(price * count * 100) / 100} €`}</small>
+              <div className="orderButton d-flex flex-row">
+                <button
+                  name="add"
+                  type="button"
+                  className="btn btn-sm mr-2 square"
+                  onClick={decrease}
+                >
+                  –
+                </button>
+                <button
+                  name="decrease"
+                  type="button"
+                  className="btn btn-sm square"
+                  onClick={add}
+                >
+                  +
+                </button>
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </div>
+      <p className="text-right font-weight-bold pt-1">
+        Total:{' '}
+        {Math.round(
+          state.userSelection.items.reduce((accumulator, item) => {
+            return accumulator + item.price * item.count;
+          }, 0) * 100
+        ) / 100}{' '}
+        €
+      </p>
+    </div>
   );
 };
 

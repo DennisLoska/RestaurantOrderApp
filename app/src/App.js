@@ -14,10 +14,7 @@ import './App.css';
 
 const History = () => {
   // TODO: Replace dummy data
-  const history = [];
-  for (let index = 0; index < 5; index++) {
-    history.push({ id: index, date: 'dd.mm.yyyy', food: 'Balla Lorem' });
-  }
+  const history = [{ id: 1, date: '2019-07-04', food: '1x Frühstückstraum' }];
   return <OrderHistory history={history} />;
 };
 
