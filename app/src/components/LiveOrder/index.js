@@ -106,7 +106,7 @@ const LiveOrder = () => {
                     {order.user}:{' '}
                     {state.ready.isReady &&
                       state.ready.user === order.user &&
-                      'bereit!'}
+                      'Bereit!'}
                   </strong>
                   <div className="order-grid">
                     {Object.prototype.toString
@@ -152,7 +152,6 @@ const LiveOrder = () => {
         name="order-now"
         type="button"
         className="btn"
-        style={{ display: 'none' }}
         onClick={onReadyToOrder}
       >
         Bereit
