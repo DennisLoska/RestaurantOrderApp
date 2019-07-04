@@ -140,7 +140,7 @@ const LiveOrder = () => {
                           }, 0) * 100
                         ) / 100
                       : Math.round(
-                          order.items.count * order.items.price * 100
+                          order.items ? order.items.price * 100 : 0
                         ) / 100}{' '}
                     €
                   </p>
