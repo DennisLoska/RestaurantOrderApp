@@ -42,7 +42,7 @@ const Tables = () => {
             return (
               <div key={id} className="tableSelection" onClick={handleOnClick}>
                 <p className="tableNames">{name}</p>
-                {free ? <p>Table is free!</p> : <p>Table is not available</p>}
+                {free ? <p>Tisch ist frei!</p> : <p>Tisch ist schon besetzt.</p>}
               </div>
             );
           })}

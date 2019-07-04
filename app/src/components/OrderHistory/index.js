@@ -32,7 +32,7 @@ const OrderHistory = props => {
         <thead className="thead-dark">
           <tr>
             <th>Tisch</th>
-            <th>Order</th>
+            <th>Bestellung</th>
           </tr>
         </thead>
         <tbody>
