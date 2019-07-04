@@ -68,7 +68,25 @@ const LiveOrder = () => {
     socket.emit('get-tableorder', data);
   };
 
-  const sendOrder = () => {};
+  const sendOrder = () => {
+    let data = JSON.stringify({
+      room: state.room ? state.room : ''
+    });
+    fetch('http://localhost:5000/api/order', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+      .then(response => response.json())
+      .catch(err => console.log(err))
+      .then(data => {
+        alert(data.msg);
+        history.push('order/history');
+      });
+  };
 
   if (!state.room) {
     return null;
@@ -134,6 +152,7 @@ const LiveOrder = () => {
         name="order-now"
         type="button"
         className="btn"
+        style={{ display: 'none' }}
         onClick={onReadyToOrder}
       >
         Bereit

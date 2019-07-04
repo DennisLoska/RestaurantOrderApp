@@ -12,12 +12,6 @@ import OrderHistory from './components/OrderHistory';
 import LiveOrder from './components/LiveOrder';
 import './App.css';
 
-const History = () => {
-  // TODO: Replace dummy data
-  const history = [{ id: 1, date: '2019-07-04', food: '1x Frühstückstraum' }];
-  return <OrderHistory history={history} />;
-};
-
 const links = [
   { label: 'Speisekarte', path: '/order' },
   { label: 'Bestellverlauf', path: '/order/history' },
@@ -69,7 +63,7 @@ const App = () => {
               <Switch>
                 <Route path="/" exact component={SignIn} />
                 <Route path="/order" exact component={MenuCard} />
-                <Route path="/order/history" exact component={History} />
+                <Route path="/order/history" exact component={OrderHistory} />
                 <Route path="/signin" exact component={SignIn} />
                 <Route path="/signup" exact component={SignUp} />
                 <Route path="/tables" exact component={Tables} />

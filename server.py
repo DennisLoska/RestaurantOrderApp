@@ -108,10 +108,10 @@ def logout():
 @app.route('/api/orders', methods=['GET'])
 def getOrders():
     orders = db.orders
-    user_orders = orders.find({'username': session['username']})
+    user_orders = list(orders.find({'username': session['username']}))
     if user_orders:
         return Response(
-            json.dumps({'orders': user_orders}),
+            json.dumps(user_orders, default=json_util.default),
             mimetype='application/json',
         )
     else:
@@ -190,6 +190,27 @@ def getTableOrder():
             json.dumps({'error': 'No items selected!'}),
             mimetype='application/json',
         )
+
+
+@app.route('/api/order', methods=['GET', 'POST'])
+def sendOrder():
+    data = json.loads(request.data)
+    room = data['room']
+    orders = db.orders
+    if table_order:
+        if room in table_order:
+            for order in table_order[room]:
+                orders.insert_one(
+                    {"username": order['user'], "items": order['items'], "table": room})
+
+        return Response(
+            json.dumps({"msg": 'Bestellung erfolgreich aufgegeben!'}),
+            mimetype='application/json',
+        )
+    return Response(
+        json.dumps({'error': 'Keine Bestellung gefunden!'}),
+        mimetype='application/json',
+    )
 
 
 # Routing - we do not use the Flask server for routing in our application
