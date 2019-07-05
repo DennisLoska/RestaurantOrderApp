@@ -4,7 +4,7 @@ We based the configuration of the project on this boilerplate with a Flask backe
 
 - https://github.com/modle/flask-react
 
-The Flask server runs on localhost:5000 and the Webpack development server on port 3000
+The Flask server runs on localhost:5000 and the Webpack development server on port 3000, which does not support communication with the server because of CORS policy.
 
 ## Getting started
 
@@ -17,15 +17,6 @@ cd RestaurantOrderApp
 ```
 
 2. Create a virtual environment
-
-Python 2:
-
-```
-// install virtualenv if it is missing
-pip install --user virtualenv
-
-virtualenv flask-react
-```
 
 Python 3:
 
@@ -53,7 +44,7 @@ setup.bat
 
 **In another tab**
 
-- start frontend development server
+- start frontend development server (optional)
 
 ```
 cd app && npm start
@@ -66,17 +57,6 @@ These steps are only relevant if you did not execute the _setup.sh_ inside a vir
 ### Set up the virtual environment
 
 To work inside a virtual environment you need to create it first:
-
-Python 2:
-
-```
-cd RestaurantOrderApp
-
-// install virtualenv if it is missing
-pip install --user virtualenv
-
-virtualenv flask-react
-```
 
 Python 3:
 
@@ -126,18 +106,17 @@ set FLASK_APP=server.py
 Now you can run Flask correctly in the virtual environment:
 
 ```
-flask run
+python server.py
 ```
 
 The outpout should look as follows:
 
 ```
- * Serving Flask app "server"
- * Forcing debug mode on
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 622-298-193
+ * Debugger PIN: 473-603-352
+(9698) wsgi starting up on http://127.0.0.1:5000
+
 ```
 
 ### Exiting the virtual environment
@@ -156,26 +135,38 @@ on Linux and macOS:
 cd RestaurantOrderApp/app
 npm run backend:unix
 ```
+or manually run it using:
+
+```sh
+cd RestaurantOrderApp/
+python server.py
+```
 
 on Windows:
 
 ```cmd
-cd RestaurantOrderApp\app
+cd RestaurantOrderApp\
 npm run backend:win
+```
+or manually run it using:
+
+```sh
+cd RestaurantOrderApp/
+python server.py
 ```
 
 **In another tab**
 
-- start frontend development server
+- start frontend development server(optional)
 
 ```
 cd RestaurantOrderApp/app
 npm start
 ```
 
-Try to go to the route /test to make sure React-Router is also working!
-
 ## Deployment
+
+The deployed app works correctly, since it has the same origin as the server (port 5000).
 
 ```
 cd RestaurantOrderApp/app
@@ -198,4 +189,4 @@ cd RestaurantOrderApp/app
 npm run backend:win
 ```
 
-Visit http://localhost:3000 to view the deployed app!
+Visit http://localhost:5000 to view the deployed app!
