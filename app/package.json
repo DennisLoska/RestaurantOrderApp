@@ -9,7 +9,7 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "1.0.17",
+    "react-scripts": "5.0.1",
     "socket.io": "^2.2.0"
   },
   "scripts": {
